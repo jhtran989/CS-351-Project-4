@@ -1,3 +1,5 @@
+package mazeSolver;
+
 /**
  * Author: Todd Sipe, John Tran
  * Class: CS 351
@@ -5,5 +7,5 @@
  * This enum ...//TODO
  */
 
-public enum MazeGeneratorType {
+public enum MazeSolverType {
 }

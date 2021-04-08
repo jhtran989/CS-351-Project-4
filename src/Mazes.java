@@ -11,6 +11,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import mazePieces.Cell;
 
 import java.io.*;
 
@@ -44,8 +45,9 @@ public class Mazes extends Application {
         Canvas canvas = new Canvas(mazeSize, mazeSize);
         Pane root = new Pane(canvas);
 
-        Cell cell = new Cell(root, cellSize, Color.BLUE, true, true,
-                true, true);
+        // FIXME: create a MazeBoard object instead
+//        Cell cell = new Cell(root, cellSize, Color.BLUE, true, true,
+//                true, true, rowIndex, columnIndex);
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);

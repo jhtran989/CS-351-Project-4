@@ -1,4 +1,4 @@
-/**
+package mazePieces; /**
  * Author: Todd Sipe, John Tran
  * Class: CS 351
  * Project: Mazes
@@ -9,7 +9,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Cell{
+public class Cell extends Rectangle {
+    public static final Cell CELL_OUT_OF_BOUNDS = new Cell();
+
     private int cellSize;
     private boolean left;
     private boolean up;
@@ -17,9 +19,11 @@ public class Cell{
     private boolean down;
     private Color color;
     private Rectangle rectangle;
+    private int rowIndex;
+    private int columnIndex;
 
     /***
-     * Constructor for the Cell object.
+     * Constructor for the mazePieces.Cell object.
      * @param root is the Pane we pass in to add the cell.
      * @param cellSize is the size of our cells.
      * @param color is the color of our cell.
@@ -27,9 +31,11 @@ public class Cell{
      * @param up is for the upper wall of our cell.
      * @param right is for the right wall of our cell.
      * @param down is for the bottom wall of our cell.
+     * @param rowIndex
+     * @param columnIndex
      */
     public Cell(Pane root, int cellSize, Color color, boolean left,
-                boolean up, boolean right, boolean down) {
+                boolean up, boolean right, boolean down, int rowIndex, int columnIndex) {
         this.color = color;
         this.cellSize = cellSize;
         this.left = left;
@@ -37,7 +43,15 @@ public class Cell{
         this.right = right;
         this.down = down;
         rectangle = new Rectangle(cellSize, cellSize);
+        this.rowIndex = rowIndex;
+        this.columnIndex = columnIndex;
         root.getChildren().add(rectangle);
+    }
+
+    /**
+     * Should only be used for the CELL_OUT_OF_BOUNDS constant defined above
+     */
+    public Cell() {
     }
 
     /***
@@ -92,5 +106,13 @@ public class Cell{
 
     public void setDown(boolean down) {
         this.down = down;
+    }
+
+    public int getRowIndex() {
+        return rowIndex;
+    }
+
+    public int getColumnIndex() {
+        return columnIndex;
     }
 }

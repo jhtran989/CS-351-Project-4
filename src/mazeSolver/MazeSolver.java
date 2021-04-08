@@ -1,9 +1,11 @@
+package mazeSolver;
+
 /**
  * Author: Todd Sipe, John Tran
  * Class: CS 351
  * Project: Mazes
- * This enum ...//TODO
+ * This class ...//TODO
  */
 
-public enum MazeSolverType {
+public class MazeSolver {
 }

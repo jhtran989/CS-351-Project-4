@@ -1,3 +1,5 @@
+package mazeGenerator;
+
 /**
  * Author: Todd Sipe, John Tran
  * Class: CS 351
