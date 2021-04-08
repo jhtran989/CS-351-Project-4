@@ -8,4 +8,12 @@ package mazeGenerator;
  */
 
 public enum MazeGeneratorType {
+    DEPTH_FIRST_SEARCH("dfs"),
+    KRUSKAL("kruskal");
+
+    private String stringRep;
+
+    MazeGeneratorType(String stringRep) {
+        this.stringRep = stringRep;
+    }
 }

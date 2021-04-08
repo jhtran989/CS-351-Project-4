@@ -12,3 +12,11 @@ John:
 The `Cell` class could extend `Rectange` so any `Cell` objects could just be added to the children of the pane.
 The field for a `Pane` object isn't needed in the `Cell` class and could be done outside (like the `MazeBoard` class).
 The member variables (`boolean`) `left`, `down`, `left`, `right` could also be moved to a higher abstaction (again, the `MazeBoard` class) and it allows for much easier access to the entire board of `Cell` objects.
+
+4/8/2021:
+John:
+When finding the neighbors when working with the cells directly, we check for cells two "cells" away from the current cell being checked in all four directions. Here, the constant `CELL_OUT_OF_BOUNDS` is useful here since its a cell type it bypasses some problems had we used `null` instead.
+
+Also, when creating `List` objects, they'll be implemented as an `ArrayList`.
+
+For the cell types, we might want to split it up further into `WALL` and `PATH` (both visited and unvisited), maybe with an interface (or abstract class with a field for if the cell was visited for a `PATH`).

@@ -12,7 +12,7 @@ import javafx.scene.shape.Rectangle;
 public class Cell extends Rectangle {
     public static final Cell CELL_OUT_OF_BOUNDS = new Cell();
 
-    private int cellSize;
+    private double cellSize; // changed to double
     private boolean left;
     private boolean up;
     private boolean right;
@@ -21,6 +21,7 @@ public class Cell extends Rectangle {
     private Rectangle rectangle;
     private int rowIndex;
     private int columnIndex;
+    private CellType cellType;
 
     /***
      * Constructor for the mazePieces.Cell object.
@@ -48,10 +49,23 @@ public class Cell extends Rectangle {
         root.getChildren().add(rectangle);
     }
 
+    public Cell(double x, double y, double cellSize,
+                CellType cellType) {
+        super(x, y, cellSize, cellSize); // constructor for the rectangle
+        this.cellSize = cellSize;
+        this.cellType = cellType;
+        setFill(cellType.getColor());
+    }
+
     /**
      * Should only be used for the CELL_OUT_OF_BOUNDS constant defined above
      */
     public Cell() {
+    }
+
+    public void setCellType(CellType cellType) {
+        this.cellType = cellType;
+        setFill(cellType.getColor());
     }
 
     /***
@@ -68,7 +82,7 @@ public class Cell extends Rectangle {
         this.color = color;
     }
 
-    public int getCellSize() {
+    public double getCellSize() {
         return cellSize;
     }
 
