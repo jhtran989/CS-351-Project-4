@@ -22,6 +22,8 @@ public class MazeGrid {
         this.cellSize = cellSize;
         cellCenter = cellSize / 2;
         cellGroup = new Group();
+
+        initializeMazeBoard();
     }
 
     private void initializeMazeBoard() {
@@ -34,6 +36,10 @@ public class MazeGrid {
                 cellGroup.getChildren().add(cellGrid[i][j]);
             }
         }
+    }
+
+    public Cell getCell(int rowIndex, int columnIndex) {
+        return cellGrid[rowIndex][columnIndex];
     }
 
     private Cell getCellInDirection(Cell cell, Direction direction) {
@@ -78,6 +84,23 @@ public class MazeGrid {
         return neighborList;
     }
 
+    public void connectCells(Cell startCell, Cell endCell) {
+        for (int i = startCell.getRowIndex(); i <= endCell.getRowIndex(); i++) {
+            for (int j = startCell.getColumnIndex();
+                 j <= endCell.getColumnIndex(); j++) {
+                if (i == startCell.getRowIndex()
+                        && j == startCell.getColumnIndex()) {
+                    continue;
+                } else {
+                    cellGrid[i][j].setCellType(CellType.PATH);
+
+                    // TODO: maybe keep track of a list of cells a cell is
+                    // connected to?
+                }
+            }
+        }
+    }
+
     /***
      * //TODO
      * GETTERS AND SETTERS FOR ALL OF OUR VALUES.
@@ -90,5 +113,13 @@ public class MazeGrid {
 
     public Cell[][] getCellGrid() {
         return cellGrid;
+    }
+
+    public int getDimension() {
+        return dimension;
+    }
+
+    public void updateGroup(Cell cell) {
+        cellGroup.getChildren().add(cell);
     }
 }

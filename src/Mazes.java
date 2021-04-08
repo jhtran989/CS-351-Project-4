@@ -5,15 +5,21 @@
  * This class is the main class for the Maze program.
  */
 
+import animationTimer.MazeAnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import mazeGenerator.DPSMazeGenerator;
+import mazeGenerator.MazeGenerator;
+import mazeGenerator.MazeGeneratorType;
 import mazePieces.Cell;
+import mazePieces.MazeGrid;
 
 import java.io.*;
+import java.util.Scanner;
 
 public class Mazes extends Application {
     private static int mazeSize;
@@ -30,7 +36,10 @@ public class Mazes extends Application {
      * @throws IOException - typical io safeguard.
      */
     public static void main(String[] args) throws IOException {
-        readTheFile(args[0]);
+        //readTheFile(args[0]);
+        readInputStreamReader(
+                new InputStreamReader(Mazes.class.getResourceAsStream(
+                "example_input.txt")));
         launch(args);
     }
 
@@ -48,10 +57,18 @@ public class Mazes extends Application {
         // FIXME: create a MazeBoard object instead
 //        Cell cell = new Cell(root, cellSize, Color.BLUE, true, true,
 //                true, true, rowIndex, columnIndex);
+        MazeGrid mazeGrid = new MazeGrid(mazeSize, cellSize);
+        MazeGenerator mazeGenerator = new DPSMazeGenerator(mazeGrid,
+                MazeGeneratorType.DEPTH_FIRST_SEARCH);
+        MazeAnimationTimer mazeAnimationTimer = new MazeAnimationTimer(root,
+                mazeGrid, mazeGenerator);
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        mazeAnimationTimer.start();
+        mazeAnimationTimer.run();
     }
 
     /***
@@ -62,7 +79,8 @@ public class Mazes extends Application {
      * @throws IOException - typical io safeguard.
      */
     public static void readTheFile(String args) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(args))) {
+        try (BufferedReader br =
+                     new BufferedReader(new FileReader(args))) {
             mazeSize = Integer.parseInt(br.readLine());
             cellSize = Integer.parseInt(br.readLine());
             String algorithm = br.readLine();
@@ -74,5 +92,17 @@ public class Mazes extends Application {
         }
     }
 
-
+    public static void readInputStreamReader(InputStreamReader
+                                                     inputStreamReader) {
+        try (Scanner scanner = new Scanner(inputStreamReader)) {
+            mazeSize = Integer.parseInt(scanner.nextLine());
+            cellSize = Integer.parseInt(scanner.nextLine());
+            String algorithm = scanner.nextLine();
+            String solver = scanner.nextLine();
+            System.out.println(mazeSize);
+            System.out.println(cellSize);
+            System.out.println(algorithm);
+            System.out.println(solver);
+        }
+    }
 }

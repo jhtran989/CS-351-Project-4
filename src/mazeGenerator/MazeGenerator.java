@@ -19,6 +19,17 @@ public abstract class MazeGenerator {
     protected MazeGeneratorType mazeGeneratorType;
     protected static ThreadLocalRandom threadLocalRandom =
             ThreadLocalRandom.current();
+    protected Cell startingCell;
+    protected Cell currentCell;
 
+    public MazeGenerator(MazeGrid mazeGrid,
+                         MazeGeneratorType mazeGeneratorType) {
+        pathStack = new Stack<>();
+        this.mazeGrid = mazeGrid;
+        this.mazeGeneratorType = mazeGeneratorType;
+    }
+
+    public abstract void generateStartingPoint();
     public abstract void generateMaze(Cell startingCell);
+    public abstract void generatePartOfMaze();
 }

@@ -4,8 +4,8 @@ import javafx.scene.paint.Color;
 
 public enum CellType {
     WALL(Color.BLACK),
-    PATH_VISITED(Color.BLUE),
-    PATH_UNVISITED(Color.WHITE);
+    PATH(Color.WHITE),
+    PATH_BACKTRACK(Color.BLUE);
 
     private Color color;
 
