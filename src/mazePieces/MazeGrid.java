@@ -26,13 +26,14 @@ public class MazeGrid {
         initializeMazeBoard();
     }
 
+    // updated so the LEFT CORDER is used
     private void initializeMazeBoard() {
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
                 // should be all WALLs initially
-                cellGrid[i][j] = new Cell(cellCenter + j * cellSize,
-                        cellCenter + i * cellSize, cellSize,
-                        CellType.WALL);
+                cellGrid[i][j] = new Cell(j * cellSize,
+                        i * cellSize, cellSize,
+                        CellType.WALL, i, j);
                 cellGroup.getChildren().add(cellGrid[i][j]);
             }
         }
@@ -47,11 +48,11 @@ public class MazeGrid {
         int newColumnIndex = cell.getColumnIndex()
                 + direction.getColumnCorrection();
 
-        if (newRowIndex < 0 || newRowIndex > dimension) {
+        if (newRowIndex < 0 || newRowIndex >= dimension) {
             return CELL_OUT_OF_BOUNDS;
         }
 
-        if (newColumnIndex < 0 || newColumnIndex > dimension) {
+        if (newColumnIndex < 0 || newColumnIndex >= dimension) {
             return CELL_OUT_OF_BOUNDS;
         }
 
@@ -77,27 +78,93 @@ public class MazeGrid {
                     direction);
 
             if (currentNeighbor != CELL_OUT_OF_BOUNDS) {
-                neighborList.add(currentNeighbor);
+                if (!currentNeighbor.isVisited()) {
+                    neighborList.add(currentNeighbor);
+                }
             }
         }
 
         return neighborList;
     }
 
-    public void connectCells(Cell startCell, Cell endCell) {
-        for (int i = startCell.getRowIndex(); i <= endCell.getRowIndex(); i++) {
-            for (int j = startCell.getColumnIndex();
-                 j <= endCell.getColumnIndex(); j++) {
-                if (i == startCell.getRowIndex()
-                        && j == startCell.getColumnIndex()) {
-                    continue;
-                } else {
+    public void connectCells(Cell currentCell, Cell neighborCell) {
+        int firstRowIndex = Math.min(currentCell.getRowIndex(),
+                neighborCell.getRowIndex());
+        int lastRowIndex = Math.max(currentCell.getRowIndex(),
+                neighborCell.getRowIndex());
+        int firstColumnIndex = Math.min(currentCell.getColumnIndex(),
+                neighborCell.getColumnIndex());
+        int lastColumnIndex = Math.max(currentCell.getColumnIndex(),
+                neighborCell.getColumnIndex());
+
+        // FIXME
+        System.out.println("First row: " + firstColumnIndex);
+        System.out.println("Last row: " + lastRowIndex);
+        System.out.println("First column: " + firstColumnIndex);
+        System.out.println("Last column: " + lastColumnIndex);
+
+        for (int i = firstRowIndex; i <= lastRowIndex; i++) {
+            for (int j = firstColumnIndex;
+                 j <= lastColumnIndex; j++) {
+                // FIXME
+                System.out.println("Current i: " + i);
+                System.out.println("Current j: " + j);
+
+                if (!(i == currentCell.getRowIndex()
+                        && j == currentCell.getColumnIndex())) {
                     cellGrid[i][j].setCellType(CellType.PATH);
 
                     // TODO: maybe keep track of a list of cells a cell is
                     // connected to?
                 }
             }
+        }
+    }
+
+    public void backtrackCells(Cell currentCell, Cell backtrackCell) {
+        int firstRowIndex = Math.min(currentCell.getRowIndex(),
+                backtrackCell.getRowIndex());
+        int lastRowIndex = Math.max(currentCell.getRowIndex(),
+                backtrackCell.getRowIndex());
+        int firstColumnIndex = Math.min(currentCell.getColumnIndex(),
+                backtrackCell.getColumnIndex());
+        int lastColumnIndex = Math.max(currentCell.getColumnIndex(),
+                backtrackCell.getColumnIndex());
+
+        // FIXME
+        System.out.println("First row: " + firstColumnIndex);
+        System.out.println("Last row: " + lastRowIndex);
+        System.out.println("First column: " + firstColumnIndex);
+        System.out.println("Last column: " + lastColumnIndex);
+
+        for (int i = firstRowIndex; i <= lastRowIndex; i++) {
+            for (int j = firstColumnIndex;
+                 j <= lastColumnIndex; j++) {
+                // FIXME
+                System.out.println("Current i: " + i);
+                System.out.println("Current j: " + j);
+
+                if (!(i == backtrackCell.getRowIndex()
+                        && j == backtrackCell.getColumnIndex())) {
+                    cellGrid[i][j].setCellType(CellType.PATH_BACKTRACK);
+
+                    // TODO: maybe keep track of a list of cells a cell is
+                    // connected to?
+                }
+            }
+        }
+    }
+
+    /**
+     * Only for debugging purposes...
+     */
+    public void printMazeGrid() {
+        for (Cell[] cells : cellGrid) {
+            for (Cell cell : cells) {
+                System.out.print(cell.getCellType() + " ");
+            }
+
+            System.out.println();
         }
     }
 

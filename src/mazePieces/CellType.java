@@ -16,4 +16,18 @@ public enum CellType {
     public Color getColor() {
         return color;
     }
+
+    @Override
+    public String toString() {
+        switch(this) {
+            case WALL:
+                return "0";
+            case PATH:
+                return "1";
+            case PATH_BACKTRACK:
+                return "2";
+            default:
+                return "-";
+        }
+    }
 }

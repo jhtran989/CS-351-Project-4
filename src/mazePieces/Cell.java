@@ -9,6 +9,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class Cell extends Rectangle {
     public static final Cell CELL_OUT_OF_BOUNDS = new Cell();
 
@@ -22,6 +26,8 @@ public class Cell extends Rectangle {
     private int rowIndex;
     private int columnIndex;
     private CellType cellType;
+    private List<Cell> neighbors;
+    private boolean visited;
 
     /***
      * Constructor for the mazePieces.Cell object.
@@ -36,7 +42,8 @@ public class Cell extends Rectangle {
      * @param columnIndex
      */
     public Cell(Pane root, int cellSize, Color color, boolean left,
-                boolean up, boolean right, boolean down, int rowIndex, int columnIndex) {
+                boolean up, boolean right, boolean down, int rowIndex,
+                int columnIndex) {
         this.color = color;
         this.cellSize = cellSize;
         this.left = left;
@@ -50,11 +57,19 @@ public class Cell extends Rectangle {
     }
 
     public Cell(double x, double y, double cellSize,
-                CellType cellType) {
-        super(x, y, cellSize, cellSize); // constructor for the rectangle
+                CellType cellType, int rowIndex, int columnIndex) {
+        super(x, y, cellSize, cellSize);
+        // constructor for the rectangle
+
         this.cellSize = cellSize;
         this.cellType = cellType;
         setFill(cellType.getColor());
+
+        this.rowIndex = rowIndex;
+        this.columnIndex = columnIndex;
+
+        neighbors = new ArrayList<>();
+        visited = false;
     }
 
     /**
@@ -66,6 +81,27 @@ public class Cell extends Rectangle {
     public void setCellType(CellType cellType) {
         this.cellType = cellType;
         setFill(cellType.getColor());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cell cell = (Cell) o;
+
+        return this.rowIndex == cell.rowIndex
+                && this.columnIndex == cell.columnIndex;
+    }
+
+    // some prime number to make pairs different...
+    @Override
+    public int hashCode() {
+        return 31 * rowIndex + columnIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "r - " + rowIndex + " c - " + columnIndex + " type - " + cellType;
     }
 
     /***
@@ -128,5 +164,25 @@ public class Cell extends Rectangle {
 
     public int getColumnIndex() {
         return columnIndex;
+    }
+
+    public CellType getCellType() {
+        return cellType;
+    }
+
+    public List<Cell> getNeighbors() {
+        return neighbors;
+    }
+
+    public void setNeighbors(List<Cell> neighbors) {
+        this.neighbors = neighbors;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 }

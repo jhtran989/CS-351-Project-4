@@ -10,8 +10,7 @@ import java.util.List;
 public class DPSMazeGenerator extends MazeGenerator{
     public DPSMazeGenerator(MazeGrid mazeGrid,
                             MazeGeneratorType mazeGeneratorType) {
-        super(mazeGrid, mazeGeneratorType
-        );
+        super(mazeGrid, mazeGeneratorType);
     }
 
     @Override
@@ -26,7 +25,10 @@ public class DPSMazeGenerator extends MazeGenerator{
 
 
         startingCell.setCellType(CellType.PATH);
+        startingCell.setVisited(true);
+
         pathStack.push(startingCell);
+        cellVisit.push(startingCell);
     }
 
     @Override
@@ -47,7 +49,8 @@ public class DPSMazeGenerator extends MazeGenerator{
                 int currentIndex = 0;
                 for (Cell currentNeighbor : currentNeighbors) {
                     // TODO: this is where we could update the paths...
-                    mazeGrid.connectCells(currentCell, currentNeighbor);
+                    mazeGrid.connectCells(currentCell,
+                            currentNeighbor);
 
                     if (currentIndex != randomIndex) {
                         pathStack.push(currentNeighbor);
@@ -73,6 +76,10 @@ public class DPSMazeGenerator extends MazeGenerator{
 
             List<Cell> currentNeighbors = mazeGrid.getNeighborList(
                     currentCell);
+            currentCell.setNeighbors(currentNeighbors);
+
+            // FIXME
+            mazeGeneratorDEBUG.printDPS();
 
             if (!currentNeighbors.isEmpty()) {
                 int randomIndex =
@@ -88,16 +95,45 @@ public class DPSMazeGenerator extends MazeGenerator{
                     if (currentIndex != randomIndex) {
                         pathStack.push(currentNeighbor);
                     } else {
-                        mazeGrid.connectCells(currentCell, currentNeighbor);
+                        //FIXME
+                        System.out.println("Chosen neighbor: "
+                                + currentNeighbor);
+
+                        mazeGrid.connectCells(currentCell,
+                                currentNeighbor);
                     }
 
+                    currentNeighbor.setVisited(true);
                     currentIndex++;
                 }
 
                 this.currentCell = currentNeighbors.get(randomIndex);
+                //this.previousCell = currentCell;
                 pathStack.push(currentNeighbors.get(randomIndex));
+                cellVisit.push(currentNeighbors.get(randomIndex));
+
+                // FIXME
+                mazeGeneratorDEBUG.printDPS();
             } else { // update the cell as backtracked
-                currentCell.setCellType(CellType.PATH_BACKTRACK);
+                cellVisit.pop();
+                Cell backtrackCell = cellVisit.pop();
+
+                if (currentCell.equals(backtrackCell)) {
+                    // FIXME
+                    System.out.println();
+                    System.out.println("Backtrack");
+                    System.out.println("Current cell: " + currentCell);
+                    System.out.println("Backtrack: " + backtrackCell);
+
+                    mazeGrid.backtrackCells(currentCell,
+                            backtrackCell);
+                } else {
+                    // FIXME
+                    System.out.println();
+                    System.out.println("No backtrack...");
+                }
+
+                cellVisit.push(backtrackCell);
             }
         }
     }

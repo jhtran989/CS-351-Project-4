@@ -24,6 +24,7 @@ import java.util.Scanner;
 public class Mazes extends Application {
     private static int mazeSize;
     private static int cellSize;
+    private static int dimension;
 
     /***
      * main method.
@@ -38,7 +39,8 @@ public class Mazes extends Application {
     public static void main(String[] args) throws IOException {
         //readTheFile(args[0]);
         readInputStreamReader(
-                new InputStreamReader(Mazes.class.getResourceAsStream(
+                new InputStreamReader(
+                        Mazes.class.getResourceAsStream(
                 "example_input.txt")));
         launch(args);
     }
@@ -57,7 +59,7 @@ public class Mazes extends Application {
         // FIXME: create a MazeBoard object instead
 //        Cell cell = new Cell(root, cellSize, Color.BLUE, true, true,
 //                true, true, rowIndex, columnIndex);
-        MazeGrid mazeGrid = new MazeGrid(mazeSize, cellSize);
+        MazeGrid mazeGrid = new MazeGrid(dimension, cellSize);
         MazeGenerator mazeGenerator = new DPSMazeGenerator(mazeGrid,
                 MazeGeneratorType.DEPTH_FIRST_SEARCH);
         MazeAnimationTimer mazeAnimationTimer = new MazeAnimationTimer(root,
@@ -92,11 +94,17 @@ public class Mazes extends Application {
         }
     }
 
+    /**
+     * Updated so the dimension is also calculated (assuming the overall size
+     * of the window divides the cell size evenly...)
+     * @param inputStreamReader
+     */
     public static void readInputStreamReader(InputStreamReader
                                                      inputStreamReader) {
         try (Scanner scanner = new Scanner(inputStreamReader)) {
             mazeSize = Integer.parseInt(scanner.nextLine());
             cellSize = Integer.parseInt(scanner.nextLine());
+            dimension = mazeSize / cellSize;
             String algorithm = scanner.nextLine();
             String solver = scanner.nextLine();
             System.out.println(mazeSize);

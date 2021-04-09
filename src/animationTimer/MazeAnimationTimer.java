@@ -8,7 +8,7 @@ import mazePieces.MazeGrid;
 
 public class MazeAnimationTimer extends AnimationTimer {
     private long currentDuration;
-    private final double delaySeconds = 1; // updates the timer every second
+    private final double delaySeconds = 0.25; // updates the timer every second
     private final Pane root;
     private final MazeGrid mazeGrid;
     private final MazeGenerator mazeGenerator;
@@ -23,28 +23,26 @@ public class MazeAnimationTimer extends AnimationTimer {
     }
 
     public void run() {
-        root.getChildren().removeIf(node -> node instanceof Group);
+        //root.getChildren().removeIf(node -> node instanceof Group);
+
+        Group cellsGroup = mazeGrid.getCellGroup();
 
         if (initialization) {
+            root.getChildren().add(cellsGroup);
             mazeGenerator.generateStartingPoint();
             initialization = false;
         } else {
             mazeGenerator.generatePartOfMaze();
         }
 
-        Group cellsGroup = mazeGrid.getCellGroup();
-        root.getChildren().add(cellsGroup);
-
         //FIXME
         System.out.println("Running...");
+        mazeGrid.printMazeGrid();
     }
 
     @Override
     public void handle(long now) {
         if (now - currentDuration >= delaySeconds * 1_000_000_000) {
-            //FIXME
-            System.out.println("handling...");
-
             run();
             currentDuration = now;
         }
