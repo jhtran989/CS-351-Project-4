@@ -29,10 +29,10 @@ public class MazeAnimationTimer extends AnimationTimer {
 
         if (initialization) {
             root.getChildren().add(cellsGroup);
-            mazeGenerator.generateStartingPoint();
+            //mazeGenerator.generateStartingPoint();
             initialization = false;
         } else {
-            mazeGenerator.generatePartOfMaze();
+            //mazeGenerator.generatePartOfMaze();
         }
 
         //FIXME

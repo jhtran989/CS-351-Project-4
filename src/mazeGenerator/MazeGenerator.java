@@ -1,6 +1,7 @@
 package mazeGenerator;
 
 import mazePieces.Cell;
+import mazePieces.CellPath;
 import mazePieces.MazeGrid;
 
 import java.util.Stack;

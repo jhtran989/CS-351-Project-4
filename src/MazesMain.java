@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import mazeGenerator.DPSMazeGenerator;
 import mazeGenerator.MazeGenerator;
 import mazeGenerator.MazeGeneratorType;
+import mazePieces.Cell;
 import mazePieces.MazeGrid;
 
 import java.io.*;
@@ -22,7 +23,7 @@ import java.util.Scanner;
 public class MazesMain extends Application {
     private static int mazeSize;
     private static int cellSize;
-    private static int dimension;
+    private static int mazeGridDimension;
 
     /***
      * main method.
@@ -57,7 +58,7 @@ public class MazesMain extends Application {
         // FIXME: create a MazeBoard object instead
 //        Cell cell = new Cell(root, cellSize, Color.BLUE, true, true,
 //                true, true, rowIndex, columnIndex);
-        MazeGrid mazeGrid = new MazeGrid(dimension, cellSize,
+        MazeGrid mazeGrid = new MazeGrid(mazeGridDimension, cellSize,
                 true);
         MazeGenerator mazeGenerator = new DPSMazeGenerator(mazeGrid,
                 MazeGeneratorType.DEPTH_FIRST_SEARCH);
@@ -68,7 +69,11 @@ public class MazesMain extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        mazeAnimationTimer.start();
+        mazeGenerator.generateStartingPoint();
+        Cell startingCell = mazeGenerator.getStartingCell();
+        mazeGenerator.generateMaze(startingCell);
+
+//        mazeAnimationTimer.start();
         mazeAnimationTimer.run();
     }
 
@@ -103,7 +108,7 @@ public class MazesMain extends Application {
         try (Scanner scanner = new Scanner(inputStreamReader)) {
             mazeSize = Integer.parseInt(scanner.nextLine());
             cellSize = Integer.parseInt(scanner.nextLine());
-            dimension = mazeSize / cellSize;
+            mazeGridDimension = mazeSize / cellSize;
             String algorithm = scanner.nextLine();
             String solver = scanner.nextLine();
             System.out.println(mazeSize);

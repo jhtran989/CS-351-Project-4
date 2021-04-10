@@ -25,7 +25,7 @@ public class Cell extends Rectangle {
     private Rectangle rectangle;
     private int rowIndex;
     private int columnIndex;
-    private CellType cellType;
+    protected CellType cellType;
     private List<Cell> neighbors;
     private boolean visited;
     private Cell previousCell;
@@ -81,10 +81,12 @@ public class Cell extends Rectangle {
 
     public void updateCellPath() {
         cellType = CellType.CELL_PATH;
+        setFill(CellType.CELL_PATH.getColor());
     }
 
     public void updateCellPathBacktrack() {
         cellType = CellType.CELL_PATH_BACKTRACK;
+        setFill(CellType.CELL_PATH_BACKTRACK.getColor());
     }
 
     public void setCellType(CellType cellType) {
@@ -187,13 +189,13 @@ public class Cell extends Rectangle {
         this.neighbors = neighbors;
     }
 
-    public boolean isVisited() {
-        return visited;
-    }
-
-    public void activateVisited() {
-        visited = true;
-    }
+//    public boolean isVisited() {
+//        return visited;
+//    }
+//
+//    public void activateVisited() {
+//        visited = true;
+//    }
 
     public Cell getPreviousCell() {
         return previousCell;

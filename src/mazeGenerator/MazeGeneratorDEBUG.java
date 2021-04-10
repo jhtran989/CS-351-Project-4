@@ -31,6 +31,7 @@ public class MazeGeneratorDEBUG {
 
     public void printMazeGrid() {
         mazeGrid.printMazeGrid();
+        mazeGrid.printPathGrid();
     }
 
     public void printMazeGridAddresses() {

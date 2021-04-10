@@ -2,6 +2,7 @@ package mazeGenerator;
 
 import mazePieces.Cell;
 import constants.CellType;
+import mazePieces.CellPath;
 import mazePieces.MazeGrid;
 import utilities.DummyCell;
 
@@ -17,19 +18,20 @@ public class DPSMazeGenerator extends MazeGenerator{
     @Override
     public void generateStartingPoint() {
         int randomRowIndex = threadLocalRandom.nextInt(
-                mazeGrid.getMazeGridDimension());
+                mazeGrid.getPathGridDimension());
         int randomColumnIndex = threadLocalRandom.nextInt(
-                mazeGrid.getMazeGridDimension());
+                mazeGrid.getPathGridDimension());
 
         startingCell = mazeGrid.getCellPath(randomRowIndex,
                 randomColumnIndex);
 
-
         startingCell.setCellType(CellType.CELL_PATH);
-        startingCell.activateVisited();
+        ((CellPath) startingCell).activateVisited();
 
         pathStack.push(startingCell);
         cellVisit.push(startingCell);
+
+        mazeGeneratorDEBUG.printMazeGrid();
     }
 
 //    @Override
@@ -72,7 +74,7 @@ public class DPSMazeGenerator extends MazeGenerator{
         // FIXME: not random yet...
         // added dummy cell
         DummyCell dummyCell = new DummyCell();
-        dummyCell.addToDummy(startingCell);
+        dummyCell.addToDummy((CellPath) startingCell);
         Cell c = dummyCell.getFromDummy();
         c.setPreviousCell(c); // important for backtracking
 
@@ -88,9 +90,11 @@ public class DPSMazeGenerator extends MazeGenerator{
         Collections.shuffle(neighbors);
         for (Cell neighbor : neighbors) {
             neighbor.setPreviousCell(dummyCell.getFromDummy());
+            mazeGrid.connectCells(neighbor,
+                    neighbor.getPreviousCell());
             pathStack.push(neighbor);
             //neighbor.visit();
-            neighbor.activateVisited();
+            ((CellPath) neighbor).activateVisited();
         }
         mazeGeneratorDEBUG.printMazeGrid();
         neighbors.clear();
@@ -98,7 +102,7 @@ public class DPSMazeGenerator extends MazeGenerator{
             dummyCell.addToDummy(pathStack.pop());
             c = dummyCell.getFromDummy();
             //c.setPreviousCell(dummyCell.getFromDummy());
-            if (c.isVisited()) {
+            if (((CellPath) c).isVisited()) {
                 c.updateCellPath();
             }
             mazeGeneratorDEBUG.printMazeGrid();
@@ -106,9 +110,11 @@ public class DPSMazeGenerator extends MazeGenerator{
             Collections.shuffle(neighbors);
             for (Cell neighbor : neighbors) {
                 neighbor.setPreviousCell(dummyCell.getFromDummy());
+                mazeGrid.connectCells(neighbor,
+                        neighbor.getPreviousCell());
                 pathStack.push(neighbor);
                 //neighbor.visit();
-                neighbor.activateVisited();
+                ((CellPath) neighbor).activateVisited();
             }
             if (!pathStack.isEmpty()) {
                 Cell nextCell;
@@ -121,7 +127,15 @@ public class DPSMazeGenerator extends MazeGenerator{
                     nextCell = pathStack.pop();
                     System.out.println("Next cell " + nextCell);
                     Cell returnCell = nextCell.getPreviousCell();
+
+                    // FIXME
+                    DummyCell currentBacktrack = new DummyCell();
+                    currentBacktrack.addToDummy(c);
+
                     Cell previousCell = c.getPreviousCell();
+                    mazeGrid.backtrackCells(
+                            currentBacktrack.getFromDummy(),
+                            previousCell);
                     // FIXME
                     mazeGeneratorDEBUG.printMazeGridAddresses();
                     System.out.println("Current cell " + c);
@@ -130,7 +144,15 @@ public class DPSMazeGenerator extends MazeGenerator{
                     System.out.println("Previous cell " + previousCell);
                     while (previousCell != returnCell) {
                         previousCell.updateCellPathBacktrack();
+
+                        currentBacktrack.addToDummy(
+                                currentBacktrack.getFromDummy()
+                                        .getPreviousCell());
                         previousCell = previousCell.getPreviousCell();
+
+                        mazeGrid.backtrackCells(
+                                currentBacktrack.getFromDummy(),
+                                previousCell);
                         // FIXME
                         System.out.println("Previous cell " + previousCell);
                     }
@@ -190,7 +212,7 @@ public class DPSMazeGenerator extends MazeGenerator{
                     mazeGrid.connectCells(currentCell,
                             currentNeighbor);
 
-                    currentNeighbor.activateVisited();
+                    //currentNeighbor.activateVisited();
                     currentIndex++;
                 }
 
