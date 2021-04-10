@@ -5,13 +5,13 @@ package mazePieces; /**
  * This class ...//TODO
  */
 
+import constants.CellType;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Cell extends Rectangle {
     public static final Cell CELL_OUT_OF_BOUNDS = new Cell();
@@ -28,6 +28,7 @@ public class Cell extends Rectangle {
     private CellType cellType;
     private List<Cell> neighbors;
     private boolean visited;
+    private Cell previousCell;
 
     /***
      * Constructor for the mazePieces.Cell object.
@@ -76,6 +77,14 @@ public class Cell extends Rectangle {
      * Should only be used for the CELL_OUT_OF_BOUNDS constant defined above
      */
     public Cell() {
+    }
+
+    public void updateCellPath() {
+        cellType = CellType.CELL_PATH;
+    }
+
+    public void updateCellPathBacktrack() {
+        cellType = CellType.CELL_PATH_BACKTRACK;
     }
 
     public void setCellType(CellType cellType) {
@@ -182,7 +191,15 @@ public class Cell extends Rectangle {
         return visited;
     }
 
-    public void setVisited(boolean visited) {
-        this.visited = visited;
+    public void activateVisited() {
+        visited = true;
+    }
+
+    public Cell getPreviousCell() {
+        return previousCell;
+    }
+
+    public void setPreviousCell(Cell previousCell) {
+        this.previousCell = previousCell;
     }
 }

@@ -1,5 +1,7 @@
 package mazeGenerator;
 
+import mazePieces.MazeGrid;
+
 /**
  * Holds all the DEBUG statements
  */
@@ -7,9 +9,11 @@ public class MazeGeneratorDEBUG {
     private static boolean DPS = true;
 
     private final MazeGenerator mazeGenerator;
+    private final MazeGrid mazeGrid;
 
     public MazeGeneratorDEBUG(MazeGenerator mazeGenerator) {
         this.mazeGenerator = mazeGenerator;
+        mazeGrid = mazeGenerator.mazeGrid;
     }
 
     public void printDPS() {
@@ -23,5 +27,13 @@ public class MazeGeneratorDEBUG {
             System.out.println("Current neighbors");
             System.out.println(mazeGenerator.getCurrentCell().getNeighbors());
         }
+    }
+
+    public void printMazeGrid() {
+        mazeGrid.printMazeGrid();
+    }
+
+    public void printMazeGridAddresses() {
+        mazeGrid.printMazeGridAddresses();
     }
 }

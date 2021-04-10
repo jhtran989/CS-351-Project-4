@@ -10,18 +10,16 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import mazeGenerator.DPSMazeGenerator;
 import mazeGenerator.MazeGenerator;
 import mazeGenerator.MazeGeneratorType;
-import mazePieces.Cell;
 import mazePieces.MazeGrid;
 
 import java.io.*;
 import java.util.Scanner;
 
-public class Mazes extends Application {
+public class MazesMain extends Application {
     private static int mazeSize;
     private static int cellSize;
     private static int dimension;
@@ -40,8 +38,8 @@ public class Mazes extends Application {
         //readTheFile(args[0]);
         readInputStreamReader(
                 new InputStreamReader(
-                        Mazes.class.getResourceAsStream(
-                "example_input.txt")));
+                        MazesMain.class.getResourceAsStream(
+                                "example_input_1.txt")));
         launch(args);
     }
 
@@ -59,7 +57,8 @@ public class Mazes extends Application {
         // FIXME: create a MazeBoard object instead
 //        Cell cell = new Cell(root, cellSize, Color.BLUE, true, true,
 //                true, true, rowIndex, columnIndex);
-        MazeGrid mazeGrid = new MazeGrid(dimension, cellSize);
+        MazeGrid mazeGrid = new MazeGrid(dimension, cellSize,
+                true);
         MazeGenerator mazeGenerator = new DPSMazeGenerator(mazeGrid,
                 MazeGeneratorType.DEPTH_FIRST_SEARCH);
         MazeAnimationTimer mazeAnimationTimer = new MazeAnimationTimer(root,
