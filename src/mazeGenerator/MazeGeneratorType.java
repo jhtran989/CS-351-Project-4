@@ -21,7 +21,8 @@ public enum MazeGeneratorType {
     public static MazeGeneratorType getMazeGeneratorTypeFromString(
             String mazeGeneratorTypeString) {
         for (MazeGeneratorType mazeGeneratorType : values()) {
-            if (mazeGeneratorType.stringRep.equals(mazeGeneratorTypeString)) {
+            if (mazeGeneratorType.stringRep.toLowerCase()
+                    .equals(mazeGeneratorTypeString)) {
                 return mazeGeneratorType;
             }
         }

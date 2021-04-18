@@ -84,10 +84,11 @@ public class MazesMain extends Application {
         primaryStage.show();
 
         if (mazeGenerator != null) {
-            mazeGenerator.generateStartEndMazePoints();
             mazeGenerator.generateStartingPoint();
             Cell startingCell = mazeGenerator.getStartingCell();
             mazeGenerator.generateMaze(startingCell);
+
+            //TODO: Add start and end points
 
             mazeAnimationTimer.start();
             mazeAnimationTimer.run();

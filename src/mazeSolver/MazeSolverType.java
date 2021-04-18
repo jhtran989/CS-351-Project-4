@@ -8,4 +8,25 @@ package mazeSolver;
  */
 
 public enum MazeSolverType {
+    MOUSE("mouse"),
+    MOUSE_THREAD("mouse_thread"),
+    WALL("wall");
+
+    private String stringRep;
+
+    MazeSolverType(String stringRep) {
+        this.stringRep = stringRep;
+    }
+
+    public static MazeSolverType getMazeSolverTypeFromString(
+            String mazeSolverTypeString) {
+        for (MazeSolverType mazeSolverType : values()) {
+            if (mazeSolverType.stringRep.toLowerCase()
+                    .equals(mazeSolverTypeString)) {
+                return mazeSolverType;
+            }
+        }
+
+        return null;
+    }
 }
