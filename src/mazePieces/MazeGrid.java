@@ -222,7 +222,32 @@ public class MazeGrid {
 ////        }
 //    }
 
-    private Cell getNeighborInDirection(Cell cell, Direction direction) {
+    public Cell getRightWall(Cell cell, Direction direction) {
+        Direction wallDirection = Direction.getClockwiseDirection(
+                direction);
+
+        return getWallInDirection(cell, wallDirection);
+    }
+
+    private Cell getWallInDirection(Cell cell, Direction direction) {
+        CellPath newCell = (CellPath) cell;
+        int newRowIndex = newCell.getRowIndex()
+                + direction.getRowCorrection();
+        int newColumnIndex = newCell.getColumnIndex()
+                + direction.getColumnCorrection();
+
+        if (newRowIndex < 0 || newRowIndex >= mazeGridDimension) {
+            return CELL_OUT_OF_BOUNDS;
+        }
+
+        if (newColumnIndex < 0 || newColumnIndex >= mazeGridDimension) {
+            return CELL_OUT_OF_BOUNDS;
+        }
+
+        return mazeGrid[newRowIndex][newColumnIndex];
+    }
+
+    public Cell getNeighborInDirection(Cell cell, Direction direction) {
         CellPath newCell = (CellPath) cell;
         int newRowIndex = newCell.getPathRowIndex()
                 + direction.getRowCorrection();
@@ -257,6 +282,52 @@ public class MazeGrid {
         }
 
         return neighborList;
+    }
+
+    public ArrayList<Cell> getNeighborsBreakWalls(Cell c){
+        ArrayList<Cell> neighbors = new ArrayList<>();
+
+        CellPath cTemp = (CellPath) c;
+        int cRowIndex = cTemp.getPathRowIndex();
+        int cColumnIndex = cTemp.getPathColumnIndex();
+
+        if (cRowIndex > 0){ //check up
+            if (!pathGrid[cRowIndex - 1][cColumnIndex].isVisited()){
+                neighbors.add(pathGrid[cRowIndex - 1][cColumnIndex]);
+                c.setUpWall(false);
+                pathGrid[cRowIndex - 1][cColumnIndex].setDownWall(false);
+                //addCellIDToActions(c);
+                //addCellIDToActions(BOARD[c.getROW() - 1][c.getCOL()]);
+            }
+        }
+        if (cRowIndex < (pathGridDimension - 1)){ //check down
+            if (!pathGrid[cRowIndex + 1][cColumnIndex].isVisited()){
+                neighbors.add(pathGrid[cRowIndex + 1][cColumnIndex]);
+                c.setDownWall(false);
+                pathGrid[cRowIndex + 1][cColumnIndex].setUpWall(false);
+                //addCellIDToActions(c);
+                //addCellIDToActions(BOARD[c.getROW() + 1][c.getCOL()]);
+            }
+        }
+        if (cColumnIndex > 0){ //check left
+            if (!pathGrid[cRowIndex][cColumnIndex - 1].isVisited()){
+                neighbors.add(pathGrid[cRowIndex][cColumnIndex - 1]);
+                c.setLeftWall(false);
+                pathGrid[cRowIndex][cColumnIndex - 1].setRightWall(false);
+                //addCellIDToActions(c);
+                //addCellIDToActions(BOARD[c.getROW()][c.getCOL() - 1]);
+            }
+        }
+        if (cColumnIndex < (pathGridDimension - 1)){ //check right
+            if (!pathGrid[cRowIndex][cColumnIndex + 1].isVisited()){
+                neighbors.add(pathGrid[cRowIndex][cColumnIndex + 1]);
+                c.setRightWall(false);
+                pathGrid[cRowIndex][cColumnIndex + 1].setLeftWall(false);
+                //addCellIDToActions(c);
+                //addCellIDToActions(BOARD[c.getROW()][c.getCOL() + 1]);
+            }
+        }
+        return neighbors;
     }
 
     public void connectCells(Cell currentCell, Cell neighborCell) {
@@ -332,6 +403,65 @@ public class MazeGrid {
                     == CellType.CELL_WALL_PATH) {
                 mazeGrid[wallRowIndex][wallColumnIndex].setCellType(
                         CellType.CELL_WALL_BACKTRACK);
+            }
+        }
+    }
+
+    public Cell getWallInBetweenCells(Cell currentCell, Cell nextCell) {
+        if (currentCell != nextCell) {
+            int firstRowIndex = Math.min(currentCell.getRowIndex(),
+                    nextCell.getRowIndex());
+            int lastRowIndex = Math.max(currentCell.getRowIndex(),
+                    nextCell.getRowIndex());
+            int firstColumnIndex = Math.min(currentCell.getColumnIndex(),
+                    nextCell.getColumnIndex());
+            int lastColumnIndex = Math.max(currentCell.getColumnIndex(),
+                    nextCell.getColumnIndex());
+
+//            // FIXME
+//            System.out.println("First row: " + firstRowIndex);
+//            System.out.println("Last row: " + lastRowIndex);
+//            System.out.println("First column: " + firstColumnIndex);
+//            System.out.println("Last column: " + lastColumnIndex);
+
+            int wallRowIndex;
+            int wallColumnIndex;
+
+            if (firstRowIndex == lastRowIndex) {
+                wallRowIndex = firstRowIndex;
+                wallColumnIndex = firstColumnIndex + 1;
+            } else {
+                wallRowIndex = firstRowIndex + 1;
+                wallColumnIndex = firstColumnIndex;
+            }
+
+            // FIXME
+            System.out.println("Wall row: " + wallRowIndex);
+            System.out.println("Wall column: " + wallColumnIndex);
+
+            // FIXME: will only backtrack IF THE WALL CELL IS ALREADY A PATH
+            if (mazeGrid[wallRowIndex][wallColumnIndex].getCellType()
+                    == CellType.CELL_WALL_PATH) {
+                return mazeGrid[wallRowIndex][wallColumnIndex];
+            } else {
+                System.out.println();
+                System.out.println("Not a wall path...");
+            }
+        }
+
+        return null;
+    }
+
+    public void resetBacktrackToPath() {
+        for (Cell[] cells : mazeGrid) {
+            for (Cell cell : cells) {
+                CellType cellType = cell.getCellType();
+
+                if (cellType == CellType.CELL_PATH_BACKTRACK) {
+                    cell.setCellType(CellType.CELL_PATH);
+                } else if (cellType == CellType.CELL_WALL_BACKTRACK) {
+                    cell.setCellType(CellType.CELL_WALL_PATH);
+                }
             }
         }
     }

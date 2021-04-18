@@ -1,12 +1,8 @@
 package mazeGenerator;
 
 import mazePieces.Cell;
-import mazePieces.CellPath;
 import mazePieces.MazeGrid;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -56,7 +52,7 @@ public abstract class MazeGenerator {
         if (mazeGeneratorType != null) {
             switch (mazeGeneratorType) {
                 case DEPTH_FIRST_SEARCH:
-                    return new DPSMazeGenerator(mazeGrid,
+                    return new DFSMazeGenerator(mazeGrid,
                             mazeGeneratorType);
                 case KRUSKAL:
                     return new KruskalMazeGenerator(mazeGrid,

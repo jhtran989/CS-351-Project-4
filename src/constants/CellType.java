@@ -17,7 +17,9 @@ public enum CellType {
     CELL_START_POINT_SOLVER(Color.RED,
             CellActionType.INITIALIZE_START_POINT_SOLVER),
     CELL_END_POINT_SOLVER(Color.RED,
-            CellActionType.INITIALIZE_END_POINT_SOLVER);
+            CellActionType.INITIALIZE_END_POINT_SOLVER),
+    CELL_SOLVER_TRACKER(Color.GRAY,
+            CellActionType.UPDATE_CELL_SOLVER_TRACKER);
 
     private Color color;
     private CellActionType correspondingCellActionType;
@@ -64,6 +66,8 @@ public enum CellType {
                 return "s";
             case CELL_END_POINT_SOLVER:
                 return "e";
+            case CELL_SOLVER_TRACKER:
+                return "X";
             default:
                 return "-";
         }

@@ -10,7 +10,8 @@ package mazeSolver;
 public enum MazeSolverType {
     MOUSE("mouse"),
     MOUSE_THREAD("mouse_thread"),
-    WALL("wall");
+    WALL("wall"),
+    PLEDGE("pledge");
 
     private String stringRep;
 

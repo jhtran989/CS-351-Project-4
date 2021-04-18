@@ -1,5 +1,6 @@
 package mazeSolver;
 
+import constants.CellType;
 import mazeGenerator.*;
 import mazePieces.Cell;
 import mazePieces.CellPath;
@@ -24,6 +25,13 @@ public abstract class MazeSolver {
     protected Cell startSolverCell;
     protected Cell endSolverCell;
     protected MazeSolverType mazeSolverType;
+
+    public MazeSolver(MazeGrid mazeGrid, MazeSolverType mazeSolverType) {
+        this.mazeGrid = mazeGrid;
+        this.mazeSolverType = mazeSolverType;
+    }
+
+    public abstract void solveMaze();
 
     public void generateStartEndMazePoints() {
         Cell[][] pathGrid = mazeGrid.getPathGrid();
@@ -102,13 +110,39 @@ public abstract class MazeSolver {
         if (mazeSolverType != null) {
             switch (mazeSolverType) {
                 case MOUSE:
+                    return new MouseMazeSolver(mazeGrid,
+                            mazeSolverType);
                 case MOUSE_THREAD:
                 case WALL:
+                    return new WallMazeSolver(mazeGrid,
+                            mazeSolverType);
+                case PLEDGE:
+                    return new PledgeMazeSolver(mazeGrid,
+                            mazeSolverType);
                 default:
             }
         }
 
         return null;
+    }
+
+    protected void updateCellSolver(Cell currentCell, Cell nextCell) {
+        Cell wallInBetween = mazeGrid.getWallInBetweenCells(
+                currentCell,
+                nextCell);
+
+        CellType currentCellType = currentCell.getCellType();
+        CellType nextCellType = nextCell.getCellType();
+        CellType wallCellType = wallInBetween.getCellType();
+
+        currentCell.setCellType(CellType.CELL_PATH);
+        wallInBetween.setCellType(CellType.CELL_SOLVER_TRACKER);
+        wallInBetween.setCellType(wallCellType);
+        nextCell.setCellType(CellType.CELL_SOLVER_TRACKER);
+
+        // FIXME:
+        mazeGrid.printMazeGrid();
+        mazeGrid.printPathGrid();
     }
 
     public Cell getStartSolverCell() {

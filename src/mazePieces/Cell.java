@@ -9,6 +9,7 @@ import animationTimer.CellAction;
 import animationTimer.CellActionSequence;
 import animationTimer.CellActionType;
 import constants.CellType;
+import constants.Direction;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -88,6 +89,11 @@ public class Cell extends Rectangle {
         this.cellActionSequence = cellActionSequence;
 
         startEndSolver = false;
+
+        upWall = true;
+        downWall = true;
+        leftWall = true;
+        rightWall = true;
     }
 
     /**
@@ -105,6 +111,23 @@ public class Cell extends Rectangle {
     public void updateCellPathBacktrack() {
         cellType = CellType.CELL_PATH_BACKTRACK;
         setFill(CellType.CELL_PATH_BACKTRACK.getColor());
+    }
+
+    public boolean checkWallInDirection(Direction direction) {
+        switch (direction) {
+            case UP:
+                return upWall;
+            case DOWN:
+                return downWall;
+            case LEFT:
+                return leftWall;
+            case RIGHT:
+                return rightWall;
+            default:
+                System.out.println();
+                System.out.println("Invalid direction...");
+                return false;
+        }
     }
 
     public void setCellType(CellType cellType) {
@@ -206,6 +229,22 @@ public class Cell extends Rectangle {
 
     public void setDown(boolean down) {
         this.down = down;
+    }
+
+    public boolean isUpWall() {
+        return upWall;
+    }
+
+    public boolean isRightWall() {
+        return rightWall;
+    }
+
+    public boolean isDownWall() {
+        return downWall;
+    }
+
+    public boolean isLeftWall() {
+        return leftWall;
     }
 
     public int getRowIndex() {

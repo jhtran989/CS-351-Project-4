@@ -9,8 +9,8 @@ import utilities.DummyCell;
 import java.util.Collections;
 import java.util.List;
 
-public class DPSMazeGenerator extends MazeGenerator{
-    public DPSMazeGenerator(MazeGrid mazeGrid,
+public class DFSMazeGenerator extends MazeGenerator{
+    public DFSMazeGenerator(MazeGrid mazeGrid,
                             MazeGeneratorType mazeGeneratorType) {
         super(mazeGrid, mazeGeneratorType);
     }
@@ -87,7 +87,10 @@ public class DPSMazeGenerator extends MazeGenerator{
         //c.updateCellPath();
         c.setCellType(CellType.CELL_PATH);
         List<Cell> neighbors;
-        neighbors = mazeGrid.getNeighborList(c);
+
+        //neighbors = mazeGrid.getNeighborList(c);
+        neighbors = mazeGrid.getNeighborsBreakWalls(c);
+
         Collections.shuffle(neighbors);
         for (Cell neighbor : neighbors) {
             neighbor.setPreviousCell(dummyCell.getFromDummy());
@@ -108,7 +111,10 @@ public class DPSMazeGenerator extends MazeGenerator{
                 c.setCellType(CellType.CELL_PATH);
             }
             mazeGeneratorDEBUG.printMazeGrid();
-            neighbors = mazeGrid.getNeighborList(c);
+
+            //neighbors = mazeGrid.getNeighborList(c);
+            neighbors = mazeGrid.getNeighborsBreakWalls(c);
+
             Collections.shuffle(neighbors);
             for (Cell neighbor : neighbors) {
                 neighbor.setPreviousCell(dummyCell.getFromDummy());

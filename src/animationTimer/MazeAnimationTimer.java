@@ -8,7 +8,8 @@ import mazePieces.MazeGrid;
 
 public class MazeAnimationTimer extends AnimationTimer {
     private long currentDuration;
-    private final double delaySeconds = 0.05; // updates the animation according
+    private final double delaySeconds = 0.01; // updates the animation
+    // according
     // to the specified delay
     private final Pane root;
     private final MazeGrid mazeGrid;
@@ -49,9 +50,11 @@ public class MazeAnimationTimer extends AnimationTimer {
 
         if (finalPrint) {
             //FIXME
-            System.out.println("Running...");
+            System.out.println("Final run...");
             mazeGrid.printMazeGrid();
             finalPrint = false;
+
+            System.out.println("FINISHED!!!");
         }
     }
 

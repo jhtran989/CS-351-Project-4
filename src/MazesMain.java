@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import mazeGenerator.MazeGenerator;
 import mazePieces.Cell;
 import mazePieces.MazeGrid;
+import mazeSolver.MazeSolver;
 
 import java.io.*;
 import java.util.Scanner;
@@ -41,7 +42,7 @@ public class MazesMain extends Application {
         readInputStreamReader(
                 new InputStreamReader(
                         MazesMain.class.getResourceAsStream(
-                                "example_input_1.txt")));
+                                "example_input_2.txt")));
         launch(args);
     }
 
@@ -72,6 +73,9 @@ public class MazesMain extends Application {
                 MazeGenerator.getMazeGeneratorFactory(
                         mazeGeneratorChoice,
                         internalMazeGrid);
+        MazeSolver mazeSolver =
+                MazeSolver.getMazeSolverFactory(mazeSolverChoice,
+                        internalMazeGrid);
 
         CellActionSequence cellActionSequence =
                 internalMazeGrid.getCellActionSequence();
@@ -88,13 +92,23 @@ public class MazesMain extends Application {
             Cell startingCell = mazeGenerator.getStartingCell();
             mazeGenerator.generateMaze(startingCell);
 
+            // Should only be used for DFS
+            internalMazeGrid.resetBacktrackToPath();
+
             //TODO: Add start and end points
+            if (mazeSolver != null) {
+                mazeSolver.generateStartEndMazePoints();
+                mazeSolver.solveMaze();
+            } else {
+                System.out.println();
+                System.out.println("File input error...solver");
+            }
 
             mazeAnimationTimer.start();
             mazeAnimationTimer.run();
         } else {
             System.out.println();
-            System.out.println("File input error...");
+            System.out.println("File input error...generator");
         }
     }
 
