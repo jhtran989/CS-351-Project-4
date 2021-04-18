@@ -13,7 +13,11 @@ public enum CellType {
     CELL_PATH(Color.WHITE,
             CellActionType.UPDATE_CELL_PATH),
     CELL_PATH_BACKTRACK(Color.BLUE,
-            CellActionType.UPDATE_CELL_PATH_BACKTRACK);
+            CellActionType.UPDATE_CELL_PATH_BACKTRACK),
+    CELL_START_POINT_SOLVER(Color.RED,
+            CellActionType.INITIALIZE_START_POINT_SOLVER),
+    CELL_END_POINT_SOLVER(Color.RED,
+            CellActionType.INITIALIZE_END_POINT_SOLVER);
 
     private Color color;
     private CellActionType correspondingCellActionType;
@@ -56,6 +60,10 @@ public enum CellType {
             case CELL_WALL_BACKTRACK:
             case CELL_PATH_BACKTRACK:
                 return "2";
+            case CELL_START_POINT_SOLVER:
+                return "s";
+            case CELL_END_POINT_SOLVER:
+                return "e";
             default:
                 return "-";
         }

@@ -61,12 +61,13 @@ public class MazesMain extends Application {
 //                true, true, rowIndex, columnIndex);
 
         // default to WITH OUTLINE
+        // REMEMBER TO PUT OUTLINE TO THE SAME VALUE FOR BOTH GRIDS
         MazeGrid mazeGridGUI = new MazeGrid(mazeGridDimension,
-                cellSize, true, false,
+                cellSize, false, false,
                 null);
         MazeGrid internalMazeGrid = new MazeGrid(
                 mazeGridDimension, cellSize,
-                true, true, mazeGridGUI);
+                false, true, mazeGridGUI);
         MazeGenerator mazeGenerator =
                 MazeGenerator.getMazeGeneratorFactory(
                         mazeGeneratorChoice,
@@ -83,6 +84,7 @@ public class MazesMain extends Application {
         primaryStage.show();
 
         if (mazeGenerator != null) {
+            mazeGenerator.generateStartEndMazePoints();
             mazeGenerator.generateStartingPoint();
             Cell startingCell = mazeGenerator.getStartingCell();
             mazeGenerator.generateMaze(startingCell);

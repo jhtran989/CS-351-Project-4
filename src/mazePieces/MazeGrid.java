@@ -5,6 +5,7 @@ import animationTimer.CellActionSequence;
 import constants.CellType;
 import constants.Direction;
 import javafx.scene.Group;
+import mazeGenerator.MazeGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +80,7 @@ public class MazeGrid {
                         pathGrid[pathRowIndex][pathColumnIndex] =
                                 (CellPath) mazeGrid[i][j];
                         pathColumnIndex++;
+                        cellID++;
                     } else {
                         mazeGrid[i][j] = new CellWall(j * cellSize,
                                 i * cellSize, cellSize,
@@ -96,6 +98,7 @@ public class MazeGrid {
                         pathGrid[pathRowIndex][pathColumnIndex] =
                                 (CellPath) mazeGrid[i][j];
                         pathColumnIndex++;
+                        cellID++;
                     } else {
                         mazeGrid[i][j] = new CellWall(j * cellSize,
                                 i * cellSize, cellSize,
@@ -107,7 +110,6 @@ public class MazeGrid {
 //                        i * cellSize, cellSize,
 //                        CellType.CELL_WALL, i, j);
                 cellGroup.getChildren().add(mazeGrid[i][j]);
-                cellID++;
             }
 
             if (outline) {
@@ -123,6 +125,102 @@ public class MazeGrid {
             }
         }
     }
+
+//    public void initializeSolverPointsGUI(MazeGenerator mazeGenerator) {
+//        Cell firstS
+//    }
+
+    public List<Cell> getEdgesList() {
+        List<Cell> edgesList = new ArrayList<>();
+
+        int startIndex;
+        if (outline) {
+            startIndex = 1;
+
+            for (int i = 0; i < pathGridDimension; i++) {
+                if (i % 2 == 1) {
+                    for (int j = startIndex + 1; j < mazeGridDimension; j+= 2) {
+                        edgesList.add(mazeGrid[startIndex + 2 * i][j]);
+                    }
+                } else {
+                    for (int j = startIndex; j < mazeGridDimension; j+= 2) {
+                        edgesList.add(mazeGrid[startIndex + 2 * i][j]);
+                    }
+                }
+            }
+        } else {
+            startIndex = 0;
+
+            for (int i = 0; i < pathGridDimension; i++) {
+                if (i % 2 == 0) {
+                    for (int j = startIndex + 1; j < mazeGridDimension; j+= 2) {
+                        edgesList.add(mazeGrid[startIndex + 2 * i][j]);
+                    }
+                } else {
+                    for (int j = startIndex; j < mazeGridDimension; j+= 2) {
+                        edgesList.add(mazeGrid[startIndex + 2 * i][j]);
+                    }
+                }
+            }
+        }
+
+        //FIXME:
+        System.out.println();
+        System.out.println("Edges list:");
+        System.out.println(edgesList);
+
+        return edgesList;
+    }
+
+    public ArrayList<Edge> getAllEdges(){
+        ArrayList<Edge> edges = new ArrayList<>();
+
+        int startIndex;
+        if (outline) {
+            startIndex = 1;
+        } else {
+            startIndex = 0;
+        }
+
+        for (int i = 0; i < (pathGridDimension); i++) {
+            for (int j = 0; j < pathGridDimension; j++) {
+                if (j < pathGridDimension - 1){ //add to right
+                    Cell cellWall = mazeGrid[startIndex + 2 * i]
+                            [startIndex + 2 * j + 1];
+
+                    edges.add(new Edge(pathGrid[i][j],
+                            pathGrid[i][j + 1],
+                            true, false, cellWall));
+                }
+                if (i < pathGridDimension - 1){
+                    Cell cellWall = mazeGrid[startIndex + 2 * i + 1]
+                            [startIndex + 2 * j];
+
+                    edges.add(new Edge(pathGrid[i][j],
+                            pathGrid[i + 1][j],
+                            false, true, cellWall));
+                }
+            }
+        }
+
+        //FIXME:
+        for (Edge edge : edges) {
+            System.out.println(edge.getCellWall());
+        }
+        System.out.println("Edges size: " + edges.size());
+
+        return edges;
+    }
+
+//    public List<Cell> getBucketCells() {
+////        List<Cell>
+////
+////        for (Cell[] cells : mazeGrid) {
+////            for (Cell cell : cells) {
+////
+////            }
+////        }
+//    }
 
     private Cell getNeighborInDirection(Cell cell, Direction direction) {
         CellPath newCell = (CellPath) cell;
@@ -197,41 +295,44 @@ public class MazeGrid {
     }
 
     public void backtrackCells(Cell currentCell, Cell backtrackCell) {
-        int firstRowIndex = Math.min(currentCell.getRowIndex(),
-                backtrackCell.getRowIndex());
-        int lastRowIndex = Math.max(currentCell.getRowIndex(),
-                backtrackCell.getRowIndex());
-        int firstColumnIndex = Math.min(currentCell.getColumnIndex(),
-                backtrackCell.getColumnIndex());
-        int lastColumnIndex = Math.max(currentCell.getColumnIndex(),
-                backtrackCell.getColumnIndex());
+        // FIXME: problem at the corners...
+        if (currentCell != backtrackCell) {
+            int firstRowIndex = Math.min(currentCell.getRowIndex(),
+                    backtrackCell.getRowIndex());
+            int lastRowIndex = Math.max(currentCell.getRowIndex(),
+                    backtrackCell.getRowIndex());
+            int firstColumnIndex = Math.min(currentCell.getColumnIndex(),
+                    backtrackCell.getColumnIndex());
+            int lastColumnIndex = Math.max(currentCell.getColumnIndex(),
+                    backtrackCell.getColumnIndex());
 
-        // FIXME
-        System.out.println("First row: " + firstRowIndex);
-        System.out.println("Last row: " + lastRowIndex);
-        System.out.println("First column: " + firstColumnIndex);
-        System.out.println("Last column: " + lastColumnIndex);
+            // FIXME
+            System.out.println("First row: " + firstRowIndex);
+            System.out.println("Last row: " + lastRowIndex);
+            System.out.println("First column: " + firstColumnIndex);
+            System.out.println("Last column: " + lastColumnIndex);
 
-        int wallRowIndex;
-        int wallColumnIndex;
+            int wallRowIndex;
+            int wallColumnIndex;
 
-        if (firstRowIndex == lastRowIndex) {
-            wallRowIndex = firstRowIndex;
-            wallColumnIndex = firstColumnIndex + 1;
-        } else {
-            wallRowIndex = firstRowIndex + 1;
-            wallColumnIndex = firstColumnIndex;
-        }
+            if (firstRowIndex == lastRowIndex) {
+                wallRowIndex = firstRowIndex;
+                wallColumnIndex = firstColumnIndex + 1;
+            } else {
+                wallRowIndex = firstRowIndex + 1;
+                wallColumnIndex = firstColumnIndex;
+            }
 
-        // FIXME
-        System.out.println("Wall row: " + wallRowIndex);
-        System.out.println("Wall column: " + wallColumnIndex);
+            // FIXME
+            System.out.println("Wall row: " + wallRowIndex);
+            System.out.println("Wall column: " + wallColumnIndex);
 
-        // FIXME: will only backtrack IF THE WALL CELL IS ALREADY A PATH
-        if (mazeGrid[wallRowIndex][wallColumnIndex].getCellType()
-                == CellType.CELL_WALL_PATH) {
-            mazeGrid[wallRowIndex][wallColumnIndex].setCellType(
-                    CellType.CELL_WALL_BACKTRACK);
+            // FIXME: will only backtrack IF THE WALL CELL IS ALREADY A PATH
+            if (mazeGrid[wallRowIndex][wallColumnIndex].getCellType()
+                    == CellType.CELL_WALL_PATH) {
+                mazeGrid[wallRowIndex][wallColumnIndex].setCellType(
+                        CellType.CELL_WALL_BACKTRACK);
+            }
         }
     }
 
@@ -292,6 +393,10 @@ public class MazeGrid {
 
     public Cell[][] getMazeGrid() {
         return mazeGrid;
+    }
+
+    public CellPath[][] getPathGrid() {
+        return pathGrid;
     }
 
     public int getMazeGridDimension() {

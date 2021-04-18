@@ -34,6 +34,11 @@ public class Cell extends Rectangle {
     private Cell previousCell;
     protected int cellID;
     protected CellActionSequence cellActionSequence;
+    private boolean upWall;
+    private boolean rightWall;
+    private boolean downWall;
+    private boolean leftWall;
+    protected boolean startEndSolver;
 
     /***
      * Constructor for the mazePieces.Cell object.
@@ -81,6 +86,8 @@ public class Cell extends Rectangle {
         this.cellID = cellID;
 
         this.cellActionSequence = cellActionSequence;
+
+        startEndSolver = false;
     }
 
     /**
@@ -101,15 +108,29 @@ public class Cell extends Rectangle {
     }
 
     public void setCellType(CellType cellType) {
-        this.cellType = cellType;
-        setFill(cellType.getColor());
+        if (cellType == CellType.CELL_START_POINT_SOLVER
+                || cellType == CellType.CELL_END_POINT_SOLVER) {
+            this.cellType = cellType;
+            setFill(cellType.getColor());
+            startEndSolver = true;
 
-        // If not one of the four specified types, then a problem occurs...
-        CellActionType cellActionType =
-                CellActionType.getCellActionTypeFromCellType(cellType);
-        cellActionSequence.addCellAction(new CellAction(
-                rowIndex, columnIndex,
-                cellActionType));
+            // If not one of the four specified types, then a problem occurs...
+            CellActionType cellActionType =
+                    CellActionType.getCellActionTypeFromCellType(cellType);
+            cellActionSequence.addCellAction(new CellAction(
+                    rowIndex, columnIndex,
+                    cellActionType));
+        } else if (!startEndSolver) {
+            this.cellType = cellType;
+            setFill(cellType.getColor());
+
+            // If not one of the four specified types, then a problem occurs...
+            CellActionType cellActionType =
+                    CellActionType.getCellActionTypeFromCellType(cellType);
+            cellActionSequence.addCellAction(new CellAction(
+                    rowIndex, columnIndex,
+                    cellActionType));
+        }
     }
 
     @Override
@@ -221,5 +242,39 @@ public class Cell extends Rectangle {
 
     public void setPreviousCell(Cell previousCell) {
         this.previousCell = previousCell;
+    }
+
+    public void setUpWall(boolean upWall) {
+        this.upWall = upWall;
+    }
+
+    public void setRightWall(boolean rightWall) {
+        this.rightWall = rightWall;
+    }
+
+    public void setDownWall(boolean downWall) {
+        this.downWall = downWall;
+    }
+
+    public void setLeftWall(boolean leftWall) {
+        this.leftWall = leftWall;
+    }
+
+    public int getCellID() {
+        return cellID;
+    }
+
+    public boolean isStartEndSolver() {
+        return startEndSolver;
+    }
+
+    public void initializeStartPointSolver() {
+        setCellType(CellType.CELL_START_POINT_SOLVER);
+        //startEndSolver = true;
+    }
+
+    public void initializeEndPointSolver() {
+        setCellType(CellType.CELL_END_POINT_SOLVER);
+        //startEndSolver = true;
     }
 }
