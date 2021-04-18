@@ -1,5 +1,7 @@
 package mazePieces;
 
+import animationTimer.CellAction;
+import animationTimer.CellActionSequence;
 import constants.CellType;
 import constants.Direction;
 import javafx.scene.Group;
@@ -8,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static mazePieces.Cell.CELL_OUT_OF_BOUNDS;
-import static mazePieces.CellPath.CELL_PATH_OUT_OF_BOUNDS;
 
 public class MazeGrid {
     private final int mazeGridDimension;
@@ -19,8 +20,11 @@ public class MazeGrid {
     private CellPath[][] pathGrid;
     private Group cellGroup;
     private boolean outline;
+    private List<CellAction> cellActionList;
+    private CellActionSequence cellActionSequence;
 
-    public MazeGrid(int mazeGridDimension, int cellSize, boolean outline) {
+    public MazeGrid(int mazeGridDimension, int cellSize, boolean outline,
+                    boolean internalVersion, MazeGrid mazeGridGUI) {
         this.mazeGridDimension = mazeGridDimension;
 
         if (outline) {
@@ -37,6 +41,13 @@ public class MazeGrid {
 
         this.outline = outline;
 
+        cellActionList = new ArrayList<>();
+        if (internalVersion) {
+            cellActionSequence = new CellActionSequence(mazeGridGUI);
+        } else {
+            cellActionSequence = new CellActionSequence(this);
+        }
+
         // FIXME
         System.out.println("Outline " + outline);
         System.out.println("Maze dimension " + mazeGridDimension);
@@ -48,10 +59,11 @@ public class MazeGrid {
         printPathGrid();
     }
 
-    // updated so the LEFT CORDER is used
+    // updated so the LEFT CORNER is used
     private void initializeMazeBoard() {
         int pathRowIndex = 0;
         int pathColumnIndex = 0;
+        int cellID = 0;
 
         for (int i = 0; i < mazeGridDimension; i++) {
             for (int j = 0; j < mazeGridDimension; j++) {
@@ -61,7 +73,8 @@ public class MazeGrid {
                         mazeGrid[i][j] = new CellPath(j * cellSize,
                                 i * cellSize, cellSize,
                                 CellType.CELL_WALL, i,
-                                j, pathRowIndex,
+                                j, cellID,
+                                cellActionSequence, pathRowIndex,
                                 pathColumnIndex);
                         pathGrid[pathRowIndex][pathColumnIndex] =
                                 (CellPath) mazeGrid[i][j];
@@ -69,14 +82,16 @@ public class MazeGrid {
                     } else {
                         mazeGrid[i][j] = new CellWall(j * cellSize,
                                 i * cellSize, cellSize,
-                                CellType.CELL_WALL, i, j);
+                                CellType.CELL_WALL, i,
+                                j, cellID, cellActionSequence);
                     }
                 } else {
                     if (i % 2 == 0 && j % 2 == 0) {
                         mazeGrid[i][j] = new CellPath(j * cellSize,
                                 i * cellSize, cellSize,
                                 CellType.CELL_WALL, i,
-                                j, pathRowIndex,
+                                j, cellID,
+                                cellActionSequence, pathRowIndex,
                                 pathColumnIndex);
                         pathGrid[pathRowIndex][pathColumnIndex] =
                                 (CellPath) mazeGrid[i][j];
@@ -84,13 +99,15 @@ public class MazeGrid {
                     } else {
                         mazeGrid[i][j] = new CellWall(j * cellSize,
                                 i * cellSize, cellSize,
-                                CellType.CELL_WALL, i, j);
+                                CellType.CELL_WALL, i,
+                                j, cellID, cellActionSequence);
                     }
                 }
 //                mazeGrid[i][j] = new Cell(j * cellSize,
 //                        i * cellSize, cellSize,
 //                        CellType.CELL_WALL, i, j);
                 cellGroup.getChildren().add(mazeGrid[i][j]);
+                cellID++;
             }
 
             if (outline) {
@@ -105,10 +122,6 @@ public class MazeGrid {
                 }
             }
         }
-    }
-
-    public Cell getCellPath(int rowIndex, int columnIndex) {
-        return pathGrid[rowIndex][columnIndex];
     }
 
     private Cell getNeighborInDirection(Cell cell, Direction direction) {
@@ -214,8 +227,12 @@ public class MazeGrid {
         System.out.println("Wall row: " + wallRowIndex);
         System.out.println("Wall column: " + wallColumnIndex);
 
-        mazeGrid[wallRowIndex][wallColumnIndex].setCellType(
-                CellType.CELL_WALL_BACKTRACK);
+        // FIXME: will only backtrack IF THE WALL CELL IS ALREADY A PATH
+        if (mazeGrid[wallRowIndex][wallColumnIndex].getCellType()
+                == CellType.CELL_WALL_PATH) {
+            mazeGrid[wallRowIndex][wallColumnIndex].setCellType(
+                    CellType.CELL_WALL_BACKTRACK);
+        }
     }
 
     /**
@@ -287,5 +304,21 @@ public class MazeGrid {
 
     public int getPathGridDimension() {
         return pathGridDimension;
+    }
+
+    public Cell getCellPath(int rowIndex, int columnIndex) {
+        return pathGrid[rowIndex][columnIndex];
+    }
+
+    public Cell getGeneralCell(int rowIndex, int columnIndex) {
+        return mazeGrid[rowIndex][columnIndex];
+    }
+
+    public List<CellAction> getCellActionList() {
+        return cellActionList;
+    }
+
+    public CellActionSequence getCellActionSequence() {
+        return cellActionSequence;
     }
 }

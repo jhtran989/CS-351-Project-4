@@ -4,6 +4,7 @@ import mazePieces.Cell;
 import mazePieces.CellPath;
 import mazePieces.MazeGrid;
 
+import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -43,6 +44,30 @@ public abstract class MazeGenerator {
     public abstract void generateStartingPoint();
     public abstract void generateMaze(Cell startingCell);
     public abstract void generatePartOfMaze();
+
+    public static MazeGenerator getMazeGeneratorFactory(
+            String mazeGeneratorString, MazeGrid mazeGrid) {
+        MazeGeneratorType mazeGeneratorType =
+                MazeGeneratorType.getMazeGeneratorTypeFromString(
+                        mazeGeneratorString);
+
+        if (mazeGeneratorType != null) {
+            switch (mazeGeneratorType) {
+                case DEPTH_FIRST_SEARCH:
+                    return new DPSMazeGenerator(mazeGrid,
+                            mazeGeneratorType);
+                case KRUSKAL:
+                    return new KruskalMazeGenerator(mazeGrid,
+                            mazeGeneratorType);
+                case PRIM:
+                    return new PrimMazeGenerator(mazeGrid,
+                            mazeGeneratorType);
+                default:
+            }
+        }
+
+        return null;
+    }
 
     public Stack<Cell> getPathStack() {
         return pathStack;

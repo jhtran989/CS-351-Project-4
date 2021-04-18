@@ -84,7 +84,8 @@ public class DPSMazeGenerator extends MazeGenerator{
 //        ArrayList<Edge> edges = getAllEdges();
 
         pathStack.push(c);
-        c.updateCellPath();
+        //c.updateCellPath();
+        c.setCellType(CellType.CELL_PATH);
         List<Cell> neighbors;
         neighbors = mazeGrid.getNeighborList(c);
         Collections.shuffle(neighbors);
@@ -103,7 +104,8 @@ public class DPSMazeGenerator extends MazeGenerator{
             c = dummyCell.getFromDummy();
             //c.setPreviousCell(dummyCell.getFromDummy());
             if (((CellPath) c).isVisited()) {
-                c.updateCellPath();
+                //c.updateCellPath();
+                c.setCellType(CellType.CELL_PATH);
             }
             mazeGeneratorDEBUG.printMazeGrid();
             neighbors = mazeGrid.getNeighborList(c);
@@ -123,7 +125,8 @@ public class DPSMazeGenerator extends MazeGenerator{
                 pathStack.push(nextCell);
 
                 if (neighbors.isEmpty()) {
-                    c.updateCellPathBacktrack();
+                    //c.updateCellPathBacktrack();
+                    c.setCellType(CellType.CELL_PATH_BACKTRACK);
                     nextCell = pathStack.pop();
                     System.out.println("Next cell " + nextCell);
                     Cell returnCell = nextCell.getPreviousCell();
@@ -143,7 +146,8 @@ public class DPSMazeGenerator extends MazeGenerator{
                     // FIXME
                     System.out.println("Previous cell " + previousCell);
                     while (previousCell != returnCell) {
-                        previousCell.updateCellPathBacktrack();
+                        //previousCell.updateCellPathBacktrack();
+                        previousCell.setCellType(CellType.CELL_PATH_BACKTRACK);
 
                         currentBacktrack.addToDummy(
                                 currentBacktrack.getFromDummy()
@@ -166,7 +170,8 @@ public class DPSMazeGenerator extends MazeGenerator{
             } else {
                 System.out.println("Last backtrack...");
                 System.out.println("Current " + c);
-                c.updateCellPathBacktrack();
+                //c.updateCellPathBacktrack();
+                c.setCellType(CellType.CELL_PATH_BACKTRACK);
                 mazeGeneratorDEBUG.printMazeGrid();
             }
 //            printBoard();

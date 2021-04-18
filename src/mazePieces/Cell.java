@@ -5,6 +5,9 @@ package mazePieces; /**
  * This class ...//TODO
  */
 
+import animationTimer.CellAction;
+import animationTimer.CellActionSequence;
+import animationTimer.CellActionType;
 import constants.CellType;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -29,6 +32,8 @@ public class Cell extends Rectangle {
     private List<Cell> neighbors;
     private boolean visited;
     private Cell previousCell;
+    protected int cellID;
+    protected CellActionSequence cellActionSequence;
 
     /***
      * Constructor for the mazePieces.Cell object.
@@ -58,7 +63,8 @@ public class Cell extends Rectangle {
     }
 
     public Cell(double x, double y, double cellSize,
-                CellType cellType, int rowIndex, int columnIndex) {
+                CellType cellType, int rowIndex, int columnIndex, int cellID,
+                CellActionSequence cellActionSequence) {
         super(x, y, cellSize, cellSize);
         // constructor for the rectangle
 
@@ -71,6 +77,10 @@ public class Cell extends Rectangle {
 
         neighbors = new ArrayList<>();
         visited = false;
+
+        this.cellID = cellID;
+
+        this.cellActionSequence = cellActionSequence;
     }
 
     /**
@@ -79,6 +89,7 @@ public class Cell extends Rectangle {
     public Cell() {
     }
 
+    // FIXME: condense to set cell type...
     public void updateCellPath() {
         cellType = CellType.CELL_PATH;
         setFill(CellType.CELL_PATH.getColor());
@@ -92,6 +103,13 @@ public class Cell extends Rectangle {
     public void setCellType(CellType cellType) {
         this.cellType = cellType;
         setFill(cellType.getColor());
+
+        // If not one of the four specified types, then a problem occurs...
+        CellActionType cellActionType =
+                CellActionType.getCellActionTypeFromCellType(cellType);
+        cellActionSequence.addCellAction(new CellAction(
+                rowIndex, columnIndex,
+                cellActionType));
     }
 
     @Override

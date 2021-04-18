@@ -1,23 +1,47 @@
 package constants;
 
+import animationTimer.CellActionType;
 import javafx.scene.paint.Color;
 
 public enum CellType {
-    CELL_WALL(Color.BLACK),
-    CELL_WALL_PATH(Color.WHITE),
-    CELL_WALL_BACKTRACK(Color.BLUE),
-    CELL_PATH_EMPTY(Color.BLACK),
-    CELL_PATH(Color.WHITE),
-    CELL_PATH_BACKTRACK(Color.BLUE);
+    CELL_WALL(Color.BLACK, null),
+    CELL_WALL_PATH(Color.WHITE,
+            CellActionType.UPDATE_CELL_WALL),
+    CELL_WALL_BACKTRACK(Color.BLUE,
+            CellActionType.UPDATE_CELL_WALL_BACKTRACK),
+    CELL_PATH_EMPTY(Color.BLACK, null),
+    CELL_PATH(Color.WHITE,
+            CellActionType.UPDATE_CELL_PATH),
+    CELL_PATH_BACKTRACK(Color.BLUE,
+            CellActionType.UPDATE_CELL_PATH_BACKTRACK);
 
     private Color color;
+    private CellActionType correspondingCellActionType;
 
-    CellType(Color color) {
+    CellType(Color color, CellActionType correspondingCellActionType) {
         this.color = color;
+        this.correspondingCellActionType = correspondingCellActionType;
     }
 
     public Color getColor() {
         return color;
+    }
+
+    public CellActionType getCorrespondingCellActionType() {
+        return correspondingCellActionType;
+    }
+
+    public static CellType getCellTypeFromCellActionType(
+            CellActionType cellActionType) {
+        for (CellType cellType : values()) {
+            if (cellType.getCorrespondingCellActionType() == cellActionType) {
+                return cellType;
+            }
+        }
+
+        System.out.println();
+        System.out.println("Invalid cell action type...");
+        return null;
     }
 
     @Override

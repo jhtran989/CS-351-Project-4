@@ -17,4 +17,15 @@ public enum MazeGeneratorType {
     MazeGeneratorType(String stringRep) {
         this.stringRep = stringRep;
     }
+
+    public static MazeGeneratorType getMazeGeneratorTypeFromString(
+            String mazeGeneratorTypeString) {
+        for (MazeGeneratorType mazeGeneratorType : values()) {
+            if (mazeGeneratorType.stringRep.equals(mazeGeneratorTypeString)) {
+                return mazeGeneratorType;
+            }
+        }
+
+        return null;
+    }
 }

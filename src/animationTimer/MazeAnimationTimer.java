@@ -8,36 +8,51 @@ import mazePieces.MazeGrid;
 
 public class MazeAnimationTimer extends AnimationTimer {
     private long currentDuration;
-    private final double delaySeconds = 0.25; // updates the timer every second
+    private final double delaySeconds = 0.05; // updates the animation according
+    // to the specified delay
     private final Pane root;
     private final MazeGrid mazeGrid;
     private final MazeGenerator mazeGenerator;
     private boolean initialization;
+    private boolean finalPrint;
+    private CellActionSequence cellActionSequence;
 
     public MazeAnimationTimer(Pane root, MazeGrid mazeGrid,
-                              MazeGenerator mazeGenerator) {
+                              MazeGenerator mazeGenerator,
+                              CellActionSequence cellActionSequence) {
         this.root = root;
         this.mazeGrid = mazeGrid;
         this.mazeGenerator = mazeGenerator;
+        this.cellActionSequence = cellActionSequence;
         initialization = true;
+        finalPrint = true;
     }
 
     public void run() {
         //root.getChildren().removeIf(node -> node instanceof Group);
 
-        Group cellsGroup = mazeGrid.getCellGroup();
-
         if (initialization) {
+            Group cellsGroup = mazeGrid.getCellGroup();
             root.getChildren().add(cellsGroup);
             //mazeGenerator.generateStartingPoint();
             initialization = false;
         } else {
+            cellActionSequence.executeCellAction();
             //mazeGenerator.generatePartOfMaze();
         }
 
-        //FIXME
-        System.out.println("Running...");
-        mazeGrid.printMazeGrid();
+        if (!cellActionSequence.isComplete()) {
+            //FIXME
+            System.out.println("Running...");
+            mazeGrid.printMazeGrid();
+        }
+
+        if (finalPrint) {
+            //FIXME
+            System.out.println("Running...");
+            mazeGrid.printMazeGrid();
+            finalPrint = false;
+        }
     }
 
     @Override

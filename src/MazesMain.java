@@ -5,15 +5,14 @@
  * This class is the main class for the Maze program.
  */
 
+import animationTimer.CellActionSequence;
 import animationTimer.MazeAnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import mazeGenerator.DPSMazeGenerator;
 import mazeGenerator.MazeGenerator;
-import mazeGenerator.MazeGeneratorType;
 import mazePieces.Cell;
 import mazePieces.MazeGrid;
 
@@ -24,6 +23,8 @@ public class MazesMain extends Application {
     private static int mazeSize;
     private static int cellSize;
     private static int mazeGridDimension;
+    private static String mazeGeneratorChoice;
+    private static String mazeSolverChoice;
 
     /***
      * main method.
@@ -58,23 +59,40 @@ public class MazesMain extends Application {
         // FIXME: create a MazeBoard object instead
 //        Cell cell = new Cell(root, cellSize, Color.BLUE, true, true,
 //                true, true, rowIndex, columnIndex);
-        MazeGrid mazeGrid = new MazeGrid(mazeGridDimension, cellSize,
-                true);
-        MazeGenerator mazeGenerator = new DPSMazeGenerator(mazeGrid,
-                MazeGeneratorType.DEPTH_FIRST_SEARCH);
+
+        // default to WITH OUTLINE
+        MazeGrid mazeGridGUI = new MazeGrid(mazeGridDimension,
+                cellSize, true, false,
+                null);
+        MazeGrid internalMazeGrid = new MazeGrid(
+                mazeGridDimension, cellSize,
+                true, true, mazeGridGUI);
+        MazeGenerator mazeGenerator =
+                MazeGenerator.getMazeGeneratorFactory(
+                        mazeGeneratorChoice,
+                        internalMazeGrid);
+
+        CellActionSequence cellActionSequence =
+                internalMazeGrid.getCellActionSequence();
         MazeAnimationTimer mazeAnimationTimer = new MazeAnimationTimer(root,
-                mazeGrid, mazeGenerator);
+                mazeGridGUI, mazeGenerator,
+                cellActionSequence);
 
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        mazeGenerator.generateStartingPoint();
-        Cell startingCell = mazeGenerator.getStartingCell();
-        mazeGenerator.generateMaze(startingCell);
+        if (mazeGenerator != null) {
+            mazeGenerator.generateStartingPoint();
+            Cell startingCell = mazeGenerator.getStartingCell();
+            mazeGenerator.generateMaze(startingCell);
 
-//        mazeAnimationTimer.start();
-        mazeAnimationTimer.run();
+            mazeAnimationTimer.start();
+            mazeAnimationTimer.run();
+        } else {
+            System.out.println();
+            System.out.println("File input error...");
+        }
     }
 
     /***
@@ -109,12 +127,12 @@ public class MazesMain extends Application {
             mazeSize = Integer.parseInt(scanner.nextLine());
             cellSize = Integer.parseInt(scanner.nextLine());
             mazeGridDimension = mazeSize / cellSize;
-            String algorithm = scanner.nextLine();
-            String solver = scanner.nextLine();
+            mazeGeneratorChoice = scanner.nextLine();
+            mazeSolverChoice = scanner.nextLine();
             System.out.println(mazeSize);
             System.out.println(cellSize);
-            System.out.println(algorithm);
-            System.out.println(solver);
+            System.out.println(mazeGeneratorChoice);
+            System.out.println(mazeSolverChoice);
         }
     }
 }
