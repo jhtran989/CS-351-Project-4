@@ -17,6 +17,12 @@ import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * To make updating the animation a little simpler and to address the "path"
+ * and "wall" cells, this class encapsulated the properties of a cell by
+ * extending the Rectangle class (directly added to a group) and having
+ * similar fields/methods of both types of cells here
+ */
 public class Cell extends Rectangle {
     public static final Cell CELL_OUT_OF_BOUNDS = new Cell();
 
@@ -42,7 +48,9 @@ public class Cell extends Rectangle {
     protected boolean startEndSolver;
 
     /***
-     * Constructor for the mazePieces.Cell object.
+     * Constructor for the mazePieces.Cell object. SHOULD BE DEPRECATED AS
+     * THIS WAS THE INITIAL CONSTRUCTOR...
+     *
      * @param root is the Pane we pass in to add the cell.
      * @param cellSize is the size of our cells.
      * @param color is the color of our cell.

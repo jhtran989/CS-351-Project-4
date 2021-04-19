@@ -5,6 +5,10 @@ import mazePieces.MazeGrid;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class that encapsulates the List of "actions" for the animation to
+ * execute
+ */
 public class CellActionSequence {
     private MazeGrid mazeGridGUI;
     private List<CellAction> cellActionList;

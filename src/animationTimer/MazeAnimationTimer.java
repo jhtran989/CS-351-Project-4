@@ -6,6 +6,11 @@ import javafx.scene.layout.Pane;
 import mazeGenerator.MazeGenerator;
 import mazePieces.MazeGrid;
 
+/**
+ * Our custom animation timer that takes in a Pane object and updates the
+ * animation according to the sequence of "actions" gathered during the
+ * generation and solving of the maze
+ */
 public class MazeAnimationTimer extends AnimationTimer {
     private long currentDuration;
     private final double delaySeconds = 0.01; // updates the animation
@@ -29,6 +34,11 @@ public class MazeAnimationTimer extends AnimationTimer {
         finalPrint = true;
     }
 
+    /**
+     * Initializes the animation with the initial starting point and executes
+     * one "action" for each call and finishes updating once all the actions
+     * have been executed
+     */
     public void run() {
         //root.getChildren().removeIf(node -> node instanceof Group);
 

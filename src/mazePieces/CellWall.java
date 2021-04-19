@@ -6,6 +6,9 @@ import constants.CellType;
 
 import java.util.List;
 
+/**
+ * Extends the Cell class and is basically a marker for the "wall" cells
+ */
 public class CellWall extends Cell {
     protected boolean takenDown;
 

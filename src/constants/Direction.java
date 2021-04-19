@@ -3,6 +3,12 @@ package constants;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Encapsulates the direction of the maze grid with the corresponding
+ * row/column corrections and has other methods to get the
+ * clockwise/counterclockwise list of directions with a given starting
+ * direction or finding the direction in a clockwise manner
+ */
 public enum Direction {
     UP(-1, 0),
     DOWN(1, 0),

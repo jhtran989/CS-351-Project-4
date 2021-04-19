@@ -9,6 +9,9 @@ import utilities.DummyCell;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Implementation of the Depth First Search (DFS) Maze generator algorithm
+ */
 public class DFSMazeGenerator extends MazeGenerator{
     public DFSMazeGenerator(MazeGrid mazeGrid,
                             MazeGeneratorType mazeGeneratorType) {
@@ -31,7 +34,7 @@ public class DFSMazeGenerator extends MazeGenerator{
         pathStack.push(startingCell);
         cellVisit.push(startingCell);
 
-        mazeGeneratorDEBUG.printMazeGrid();
+        //mazeGeneratorDEBUG.printMazeGrid();
     }
 
 //    @Override
@@ -100,7 +103,7 @@ public class DFSMazeGenerator extends MazeGenerator{
             //neighbor.visit();
             ((CellPath) neighbor).activateVisited();
         }
-        mazeGeneratorDEBUG.printMazeGrid();
+        //mazeGeneratorDEBUG.printMazeGrid();
         neighbors.clear();
         while(!pathStack.empty()){
             dummyCell.addToDummy(pathStack.pop());
@@ -110,7 +113,7 @@ public class DFSMazeGenerator extends MazeGenerator{
                 //c.updateCellPath();
                 c.setCellType(CellType.CELL_PATH);
             }
-            mazeGeneratorDEBUG.printMazeGrid();
+            //mazeGeneratorDEBUG.printMazeGrid();
 
             //neighbors = mazeGrid.getNeighborList(c);
             neighbors = mazeGrid.getNeighborsBreakWalls(c);
@@ -145,8 +148,10 @@ public class DFSMazeGenerator extends MazeGenerator{
                     mazeGrid.backtrackCells(
                             currentBacktrack.getFromDummy(),
                             previousCell);
+
                     // FIXME
-                    mazeGeneratorDEBUG.printMazeGridAddresses();
+                    //mazeGeneratorDEBUG.printMazeGridAddresses();
+
                     System.out.println("Current cell " + c);
                     System.out.println("Return cell " + returnCell);
                     // FIXME
@@ -171,14 +176,14 @@ public class DFSMazeGenerator extends MazeGenerator{
                     //  more neighbors to check...maybe add previous cell field
                     //  to each cell so we "connect" each cell with the cell that
                     //  connects to it
-                    mazeGeneratorDEBUG.printMazeGrid();
+                    //mazeGeneratorDEBUG.printMazeGrid();
                 }
             } else {
                 System.out.println("Last backtrack...");
                 System.out.println("Current " + c);
                 //c.updateCellPathBacktrack();
                 c.setCellType(CellType.CELL_PATH_BACKTRACK);
-                mazeGeneratorDEBUG.printMazeGrid();
+                //mazeGeneratorDEBUG.printMazeGrid();
             }
 //            printBoard();
             neighbors.clear();

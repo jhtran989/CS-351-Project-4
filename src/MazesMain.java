@@ -20,6 +20,11 @@ import mazeSolver.MazeSolver;
 import java.io.*;
 import java.util.Scanner;
 
+/**
+ * Main class: initializes the maze generator/solver from the specified input
+ * file and starts the animation timer to execute the animation with the
+ * created action sequence (from both the generator/solver)
+ */
 public class MazesMain extends Application {
     private static int mazeSize;
     private static int cellSize;
@@ -39,10 +44,17 @@ public class MazesMain extends Application {
      */
     public static void main(String[] args) throws IOException {
         //readTheFile(args[0]);
+
+//        readInputStreamReader(
+//                new InputStreamReader(
+//                        MazesMain.class.getResourceAsStream(
+//                                "example_input_9.txt")));
+
+        // command-line argument
         readInputStreamReader(
                 new InputStreamReader(
                         MazesMain.class.getResourceAsStream(
-                                "example_input_9.txt")));
+                                args[0])));
         launch(args);
     }
 

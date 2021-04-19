@@ -8,6 +8,9 @@ import utilities.DummyCell;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Implementation of the Mouse Maze solver algorithm
+ */
 public class MouseMazeSolver extends MazeSolver {
     public MouseMazeSolver(MazeGrid mazeGrid, MazeSolverType mazeSolverType) {
         super(mazeGrid, mazeSolverType);

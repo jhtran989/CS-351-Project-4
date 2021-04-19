@@ -3,6 +3,10 @@ package constants;
 import animationTimer.CellActionType;
 import javafx.scene.paint.Color;
 
+/**
+ * Constants for the different cell types (states) and the corresponding
+ * animation color
+ */
 public enum CellType {
     CELL_WALL(Color.BLACK, null),
     CELL_WALL_PATH(Color.WHITE,

@@ -4,6 +4,10 @@ import constants.CellType;
 import mazePieces.Cell;
 import mazePieces.MazeGrid;
 
+/**
+ * The class that encapsulates the "action" used to display each
+ * individual change made to the visualization
+ */
 public class CellAction {
     private final boolean CELL_ACTION_DEBUG = true;
 
@@ -18,6 +22,13 @@ public class CellAction {
         this.cellActionType = cellActionType;
     }
 
+    /**
+     * The "action" will be based off the current cell type (state) of the
+     * initialized row and column indices, merely changing the color
+     * representing that state in the animation
+     *
+     * @param mazeGridGUI
+     */
     public void executeAction(MazeGrid mazeGridGUI) {
         Cell currentCell = mazeGridGUI.getGeneralCell(cellRowIndex,
                 cellColumnIndex);

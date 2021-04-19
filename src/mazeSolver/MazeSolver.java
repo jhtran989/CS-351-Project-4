@@ -17,6 +17,14 @@ import java.util.concurrent.ThreadLocalRandom;
  * This class ...//TODO
  */
 
+/**
+ * The encapsulation of the maze solver that holds the abstract method
+ * solveMaze() for each implementation of the
+ * maze solver
+ *
+ * As mentioned in the README, there's a "factory" method that will create
+ * the corresponding maze solver object
+ */
 public abstract class MazeSolver {
     protected MazeGrid mazeGrid;
     protected static ThreadLocalRandom threadLocalRandom =
@@ -139,9 +147,9 @@ public abstract class MazeSolver {
         wallInBetween.setCellType(wallCellType);
         nextCell.setCellType(CellType.CELL_SOLVER_TRACKER);
 
-        // FIXME:
-        mazeGrid.printMazeGrid();
-        mazeGrid.printPathGrid();
+//        // FIXME:
+//        mazeGrid.printMazeGrid();
+//        mazeGrid.printPathGrid();
     }
 
     public Cell getStartSolverCell() {

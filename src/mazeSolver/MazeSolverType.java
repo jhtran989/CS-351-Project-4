@@ -7,6 +7,9 @@ package mazeSolver;
  * This enum ...//TODO
  */
 
+/**
+ * Constants for the maze solver
+ */
 public enum MazeSolverType {
     MOUSE("mouse"),
     MOUSE_THREAD("mouse_thread"),

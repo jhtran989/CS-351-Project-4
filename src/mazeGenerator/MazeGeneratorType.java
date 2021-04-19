@@ -7,6 +7,9 @@ package mazeGenerator;
  * This enum ...//TODO
  */
 
+/**
+ * Constants for the maze generator
+ */
 public enum MazeGeneratorType {
     DEPTH_FIRST_SEARCH("dfs"),
     KRUSKAL("kruskal"),

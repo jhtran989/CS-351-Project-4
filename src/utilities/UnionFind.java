@@ -1,5 +1,10 @@
 package utilities;
 
+/**
+ * Holds the encapsulation of the union for the Kruskal maze generation
+ * algorithm (finds the union of the set of cells and checks if they're part
+ * of the same set for a given edge, stored in the array)
+ */
 public class UnionFind {
     private final int[] SIZE;
     private final int[] POINT_TO_PARENT;

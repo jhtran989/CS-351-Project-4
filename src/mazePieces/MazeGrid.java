@@ -12,6 +12,12 @@ import java.util.List;
 
 import static mazePieces.Cell.CELL_OUT_OF_BOUNDS;
 
+/**
+ * A crucial layer of abstraction that has all the major checking on the maze
+ * grid (like finding the neighbors, connecting two "path" cells, updating
+ * the backtracking from DFS, etc.) and includes a nice feature: having an
+ * outline or not of "wall" cells (just for visualization purposes)
+ */
 public class MazeGrid {
     private final int mazeGridDimension;
     private final int pathGridDimension;
@@ -356,11 +362,11 @@ public class MazeGrid {
         int lastColumnIndex = Math.max(currentCell.getColumnIndex(),
                 neighborCell.getColumnIndex());
 
-        // FIXME
-        System.out.println("First row: " + firstRowIndex);
-        System.out.println("Last row: " + lastRowIndex);
-        System.out.println("First column: " + firstColumnIndex);
-        System.out.println("Last column: " + lastColumnIndex);
+//        // FIXME
+//        System.out.println("First row: " + firstRowIndex);
+//        System.out.println("Last row: " + lastRowIndex);
+//        System.out.println("First column: " + firstColumnIndex);
+//        System.out.println("Last column: " + lastColumnIndex);
 
         int wallRowIndex;
         int wallColumnIndex;
@@ -389,9 +395,9 @@ public class MazeGrid {
             }
         }
 
-        // FIXME
-        System.out.println("Wall row: " + wallRowIndex);
-        System.out.println("Wall column: " + wallColumnIndex);
+//        // FIXME
+//        System.out.println("Wall row: " + wallRowIndex);
+//        System.out.println("Wall column: " + wallColumnIndex);
 
         mazeGrid[wallRowIndex][wallColumnIndex].setCellType(
                 CellType.CELL_WALL_PATH);
@@ -409,11 +415,11 @@ public class MazeGrid {
             int lastColumnIndex = Math.max(currentCell.getColumnIndex(),
                     backtrackCell.getColumnIndex());
 
-            // FIXME
-            System.out.println("First row: " + firstRowIndex);
-            System.out.println("Last row: " + lastRowIndex);
-            System.out.println("First column: " + firstColumnIndex);
-            System.out.println("Last column: " + lastColumnIndex);
+//            // FIXME
+//            System.out.println("First row: " + firstRowIndex);
+//            System.out.println("Last row: " + lastRowIndex);
+//            System.out.println("First column: " + firstColumnIndex);
+//            System.out.println("Last column: " + lastColumnIndex);
 
             int wallRowIndex;
             int wallColumnIndex;
@@ -467,9 +473,9 @@ public class MazeGrid {
                 wallColumnIndex = firstColumnIndex;
             }
 
-            // FIXME
-            System.out.println("Wall row: " + wallRowIndex);
-            System.out.println("Wall column: " + wallColumnIndex);
+//            // FIXME
+//            System.out.println("Wall row: " + wallRowIndex);
+//            System.out.println("Wall column: " + wallColumnIndex);
 
             // FIXME: will only backtrack IF THE WALL CELL IS ALREADY A PATH
             if (mazeGrid[wallRowIndex][wallColumnIndex].getCellType()
@@ -512,9 +518,9 @@ public class MazeGrid {
                 wallColumnIndex = firstColumnIndex;
             }
 
-            // FIXME
-            System.out.println("Wall row: " + wallRowIndex);
-            System.out.println("Wall column: " + wallColumnIndex);
+//            // FIXME
+//            System.out.println("Wall row: " + wallRowIndex);
+//            System.out.println("Wall column: " + wallColumnIndex);
 
             // FIXME: will only backtrack IF THE WALL CELL IS ALREADY A PATH
             return mazeGrid[wallRowIndex][wallColumnIndex];

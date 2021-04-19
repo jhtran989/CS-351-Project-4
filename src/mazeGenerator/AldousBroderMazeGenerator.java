@@ -8,6 +8,9 @@ import utilities.DummyCell;
 
 import java.util.List;
 
+/**
+ * Implementation of the Aldous-Broder Maze generator algorithm
+ */
 public class AldousBroderMazeGenerator extends MazeGenerator {
     public AldousBroderMazeGenerator(MazeGrid mazeGrid,
                                      MazeGeneratorType mazeGeneratorType) {

@@ -9,6 +9,9 @@ import utilities.UnionFind;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Implementation of the Kruskal Maze generator algorithm
+ */
 public class KruskalMazeGenerator extends MazeGenerator {
     private List<Edge> edgesList;
 

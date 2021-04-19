@@ -6,6 +6,11 @@ import constants.CellType;
 
 import java.util.List;
 
+/**
+ * Extends the Cell class that has the visited field and its row/column index
+ * with respect to the path grid (containing only "path" cells, as mentioned
+ * in Todd's logic in the README)
+ */
 public class CellPath extends Cell {
     public static final CellPath CELL_PATH_OUT_OF_BOUNDS = new CellPath();
 

@@ -5,6 +5,9 @@ import mazePieces.CellPath;
 import mazePieces.MazeGrid;
 import utilities.DummyCell;
 
+/**
+ * Implementation of the Wall (follower) Maze solver algorithm
+ */
 public class WallMazeSolver extends MazeSolver {
     public WallMazeSolver(MazeGrid mazeGrid, MazeSolverType mazeSolverType) {
         super(mazeGrid, mazeSolverType);

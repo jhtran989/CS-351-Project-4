@@ -1,5 +1,10 @@
 package mazePieces;
 
+/**
+ * Used for Kruskal's maze generator and holds the cells the edge is touching
+ * as well as the orientation on the maze grid with the corresponding "wall"
+ * cell
+ */
 public class Edge {
     private final Cell CELL_ONE;
     private final Cell CELL_TWO;

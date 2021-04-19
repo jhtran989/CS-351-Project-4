@@ -2,6 +2,9 @@ package animationTimer;
 
 import constants.CellType;
 
+/**
+ * Holds all the possible actions (constants) to be executed by the animation
+ */
 public enum CellActionType {
     UPDATE_CELL_PATH,
     UPDATE_CELL_WALL,

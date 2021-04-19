@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Implementation of the Prim Maze generator algorithm
+ */
 public class PrimMazeGenerator extends MazeGenerator {
     private boolean start;
 
@@ -33,7 +36,7 @@ public class PrimMazeGenerator extends MazeGenerator {
         startingCell.setCellType(CellType.CELL_PATH);
         ((CellPath) startingCell).activateVisited();
 
-        mazeGeneratorDEBUG.printMazeGrid();
+        //mazeGeneratorDEBUG.printMazeGrid();
     }
 
     @Override
@@ -58,7 +61,7 @@ public class PrimMazeGenerator extends MazeGenerator {
                 start = false;
 
                 // FIXME:
-                mazeGeneratorDEBUG.printMazeGrid();
+                //mazeGeneratorDEBUG.printMazeGrid();
             }
 
             c = neighbors.get(0);
@@ -107,7 +110,7 @@ public class PrimMazeGenerator extends MazeGenerator {
                 nextCell.setCellType(CellType.CELL_PATH);
                 mazeGrid.connectCells(c, nextCell);
                 // FIXME:
-                mazeGeneratorDEBUG.printMazeGrid();
+                //mazeGeneratorDEBUG.printMazeGrid();
             }
             if (direction.equals("south")){
                 c.setDownWall(false);
@@ -117,7 +120,7 @@ public class PrimMazeGenerator extends MazeGenerator {
                 nextCell.setCellType(CellType.CELL_PATH);
                 mazeGrid.connectCells(c, nextCell);
                 // FIXME:
-                mazeGeneratorDEBUG.printMazeGrid();
+                //mazeGeneratorDEBUG.printMazeGrid();
             }
             if (direction.equals("west")){
                 c.setLeftWall(false);
@@ -127,7 +130,7 @@ public class PrimMazeGenerator extends MazeGenerator {
                 nextCell.setCellType(CellType.CELL_PATH);
                 mazeGrid.connectCells(c, nextCell);
                 // FIXME:
-                mazeGeneratorDEBUG.printMazeGrid();
+                //mazeGeneratorDEBUG.printMazeGrid();
             }
             if (direction.equals("east")){
                 c.setRightWall(false);
@@ -137,7 +140,7 @@ public class PrimMazeGenerator extends MazeGenerator {
                 nextCell.setCellType(CellType.CELL_PATH);
                 mazeGrid.connectCells(c, nextCell);
                 // FIXME:
-                mazeGeneratorDEBUG.printMazeGrid();
+                //mazeGeneratorDEBUG.printMazeGrid();
             }
 
             directionChoices.clear();

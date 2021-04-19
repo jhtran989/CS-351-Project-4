@@ -14,6 +14,15 @@ import java.util.concurrent.ThreadLocalRandom;
  * This class ...//TODO
  */
 
+/**
+ * The encapsulation of the maze generator that holds the abstract methods
+ * generateStartingPoint() and generateMaze() for each implementation of the
+ * maze generator (the stack could have been moved down to DFS, but didn't
+ * have time...)
+ *
+ * As mentioned in the README, there's a "factory" method that will create
+ * the corresponding maze solver object
+ */
 public abstract class MazeGenerator {
     // DEBUG members
     protected MazeGeneratorDEBUG mazeGeneratorDEBUG;
@@ -86,9 +95,9 @@ public abstract class MazeGenerator {
         wallInBetween.setCellType(wallCellType);
         nextCell.setCellType(CellType.CELL_GENERATOR_TRACKER);
 
-        // FIXME:
-        mazeGrid.printMazeGrid();
-        mazeGrid.printPathGrid();
+//        // FIXME:
+//        mazeGrid.printMazeGrid();
+//        mazeGrid.printPathGrid();
     }
 
     public Stack<Cell> getPathStack() {
