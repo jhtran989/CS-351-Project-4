@@ -53,6 +53,7 @@ public class MazesMain extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // previous commit
         primaryStage.setTitle("Mazes");
         Canvas canvas = new Canvas(mazeSize, mazeSize);
         Pane root = new Pane(canvas);
