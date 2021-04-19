@@ -1,4 +1,4 @@
 840
 40
 kruskal
-mouse
+wall

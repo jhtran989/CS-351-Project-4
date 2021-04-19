@@ -42,7 +42,7 @@ public class MazesMain extends Application {
         readInputStreamReader(
                 new InputStreamReader(
                         MazesMain.class.getResourceAsStream(
-                                "example_input_1.txt")));
+                                "example_input_9.txt")));
         launch(args);
     }
 
