@@ -9,7 +9,8 @@ public enum CellActionType {
     UPDATE_CELL_WALL_BACKTRACK,
     INITIALIZE_START_POINT_SOLVER,
     INITIALIZE_END_POINT_SOLVER,
-    UPDATE_CELL_SOLVER_TRACKER;
+    UPDATE_CELL_SOLVER_TRACKER,
+    UPDATE_CELL_GENERATOR_TRACKER;
 
     public static CellActionType getCellActionTypeFromCellType(
             CellType cellType) {

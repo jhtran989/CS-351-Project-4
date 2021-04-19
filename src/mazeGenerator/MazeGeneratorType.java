@@ -10,7 +10,8 @@ package mazeGenerator;
 public enum MazeGeneratorType {
     DEPTH_FIRST_SEARCH("dfs"),
     KRUSKAL("kruskal"),
-    PRIM("prim");
+    PRIM("prim"),
+    ALDOUS("aldous");
 
     private String stringRep;
 

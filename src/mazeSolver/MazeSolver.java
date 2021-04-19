@@ -1,7 +1,6 @@
 package mazeSolver;
 
 import constants.CellType;
-import mazeGenerator.*;
 import mazePieces.Cell;
 import mazePieces.CellPath;
 import mazePieces.MazeGrid;
@@ -127,7 +126,7 @@ public abstract class MazeSolver {
     }
 
     protected void updateCellSolver(Cell currentCell, Cell nextCell) {
-        Cell wallInBetween = mazeGrid.getWallInBetweenCells(
+        Cell wallInBetween = mazeGrid.getWallPathInBetweenCells(
                 currentCell,
                 nextCell);
 

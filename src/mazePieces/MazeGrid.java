@@ -284,6 +284,22 @@ public class MazeGrid {
         return neighborList;
     }
 
+    public List<Cell> getAllNeighborList(Cell cell) {
+        List<Cell> neighborList = new ArrayList<>();
+
+        for (Direction direction : Direction.values()) {
+            Cell currentNeighbor = getNeighborInDirection(
+                    cell,
+                    direction);
+
+            if (currentNeighbor != CELL_OUT_OF_BOUNDS) {
+                neighborList.add(currentNeighbor);
+            }
+        }
+
+        return neighborList;
+    }
+
     public ArrayList<Cell> getNeighborsBreakWalls(Cell c){
         ArrayList<Cell> neighbors = new ArrayList<>();
 
@@ -352,9 +368,25 @@ public class MazeGrid {
         if (firstRowIndex == lastRowIndex) {
             wallRowIndex = firstRowIndex;
             wallColumnIndex = firstColumnIndex + 1;
+
+            if (firstColumnIndex == currentCell.getColumnIndex()) {
+                currentCell.setRightWall(false);
+                neighborCell.setLeftWall(false);
+            } else {
+                currentCell.setLeftWall(false);
+                neighborCell.setRightWall(false);
+            }
         } else {
             wallRowIndex = firstRowIndex + 1;
             wallColumnIndex = firstColumnIndex;
+
+            if (firstRowIndex == currentCell.getRowIndex()) {
+                currentCell.setDownWall(false);
+                neighborCell.setUpWall(false);
+            } else {
+                currentCell.setUpWall(false);
+                neighborCell.setDownWall(false);
+            }
         }
 
         // FIXME
@@ -407,7 +439,7 @@ public class MazeGrid {
         }
     }
 
-    public Cell getWallInBetweenCells(Cell currentCell, Cell nextCell) {
+    public Cell getWallPathInBetweenCells(Cell currentCell, Cell nextCell) {
         if (currentCell != nextCell) {
             int firstRowIndex = Math.min(currentCell.getRowIndex(),
                     nextCell.getRowIndex());
@@ -449,6 +481,47 @@ public class MazeGrid {
             }
         }
 
+        return null;
+    }
+
+    public Cell getAnyWallInBetweenCells(Cell currentCell, Cell nextCell) {
+        if (currentCell != nextCell) {
+            int firstRowIndex = Math.min(currentCell.getRowIndex(),
+                    nextCell.getRowIndex());
+            int lastRowIndex = Math.max(currentCell.getRowIndex(),
+                    nextCell.getRowIndex());
+            int firstColumnIndex = Math.min(currentCell.getColumnIndex(),
+                    nextCell.getColumnIndex());
+            int lastColumnIndex = Math.max(currentCell.getColumnIndex(),
+                    nextCell.getColumnIndex());
+
+//            // FIXME
+//            System.out.println("First row: " + firstRowIndex);
+//            System.out.println("Last row: " + lastRowIndex);
+//            System.out.println("First column: " + firstColumnIndex);
+//            System.out.println("Last column: " + lastColumnIndex);
+
+            int wallRowIndex;
+            int wallColumnIndex;
+
+            if (firstRowIndex == lastRowIndex) {
+                wallRowIndex = firstRowIndex;
+                wallColumnIndex = firstColumnIndex + 1;
+            } else {
+                wallRowIndex = firstRowIndex + 1;
+                wallColumnIndex = firstColumnIndex;
+            }
+
+            // FIXME
+            System.out.println("Wall row: " + wallRowIndex);
+            System.out.println("Wall column: " + wallColumnIndex);
+
+            // FIXME: will only backtrack IF THE WALL CELL IS ALREADY A PATH
+            return mazeGrid[wallRowIndex][wallColumnIndex];
+        }
+
+        // FIXME:
+        System.out.println("Same cell for current/next cell");
         return null;
     }
 

@@ -1,5 +1,6 @@
 package mazeGenerator;
 
+import constants.CellType;
 import mazePieces.Cell;
 import mazePieces.MazeGrid;
 
@@ -61,11 +62,33 @@ public abstract class MazeGenerator {
                 case PRIM:
                     return new PrimMazeGenerator(mazeGrid,
                             mazeGeneratorType);
+                case ALDOUS:
+                    return new AldousBroderMazeGenerator(mazeGrid,
+                            mazeGeneratorType);
                 default:
             }
         }
 
         return null;
+    }
+
+    protected void updateCellGenerator(Cell currentCell, Cell nextCell) {
+        Cell wallInBetween = mazeGrid.getAnyWallInBetweenCells(
+                currentCell,
+                nextCell);
+
+        CellType currentCellType = currentCell.getCellType();
+        CellType nextCellType = nextCell.getCellType();
+        CellType wallCellType = wallInBetween.getCellType();
+
+        currentCell.setCellType(CellType.CELL_PATH);
+        wallInBetween.setCellType(CellType.CELL_GENERATOR_TRACKER);
+        wallInBetween.setCellType(wallCellType);
+        nextCell.setCellType(CellType.CELL_GENERATOR_TRACKER);
+
+        // FIXME:
+        mazeGrid.printMazeGrid();
+        mazeGrid.printPathGrid();
     }
 
     public Stack<Cell> getPathStack() {
